@@ -1,0 +1,32 @@
+# Env & secrets
+.env
+.env.local
+backend/.env
+k8s/secret.yaml
+
+# Node
+node_modules/
+.next/
+dist/
+build/
+
+# PHP / Laravel
+vendor/
+storage/*.key
+bootstrap/cache/*
+
+# Flutter
+mobile/.dart_tool/
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+
+# React Native / Ionic
+mobile/ios/Pods/
+mobile/android/.gradle/
+mobile/android/app/build/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

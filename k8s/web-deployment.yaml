@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projectpulse-web
+  labels:
+    app: projectpulse-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: projectpulse-web
+  template:
+    metadata:
+      labels:
+        app: projectpulse-web
+    spec:
+      containers:
+        - name: web
+          # TODO: ganti dengan image hasil `docker build` kamu, mis. ghcr.io/<org>/projectpulse-web:latest
+          image: projectpulse-web:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: "http://projectpulse-backend:8000"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10

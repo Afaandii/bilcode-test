@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projectpulse-backend
+  labels:
+    app: projectpulse-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: projectpulse-backend
+  template:
+    metadata:
+      labels:
+        app: projectpulse-backend
+    spec:
+      containers:
+        - name: backend
+          # TODO: ganti dengan image hasil `docker build` kamu, mis. ghcr.io/<org>/projectpulse-backend:latest
+          image: projectpulse-backend:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: projectpulse-config
+            - secretRef:
+                name: projectpulse-secret
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20
