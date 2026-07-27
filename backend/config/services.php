@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'llm' => [
+        'provider' => env('LLM_PROVIDER', 'google'),
+        'api_key' => env('LLM_API_KEY'),
+        'model' => env('LLM_MODEL', 'gemini-2.5-flash'),
+        'timeout_ms' => env('LLM_TIMEOUT_MS', 10000),
+    ],
+
 ];

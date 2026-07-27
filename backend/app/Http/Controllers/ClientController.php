@@ -29,7 +29,7 @@ class ClientController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'contract' => 'required|string|max:255',
+            'contact' => 'required|string|max:255',
             'company' => 'required|string|max:255',
         ]);
 
@@ -41,7 +41,7 @@ class ClientController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $client = Client::create($request->only(['name', 'contract', 'company']));
+        $client = Client::create($request->only(['name', 'contact', 'company']));
 
         return response()->json([
             'status' => 'success',
@@ -86,7 +86,7 @@ class ClientController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|required|string|max:255',
-            'contract' => 'sometimes|required|string|max:255',
+            'contact' => 'sometimes|required|string|max:255',
             'company' => 'sometimes|required|string|max:255',
         ]);
 
@@ -98,7 +98,7 @@ class ClientController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $client->update($request->only(['name', 'contract', 'company']));
+        $client->update($request->only(['name', 'contact', 'company']));
 
         return response()->json([
             'status' => 'success',
