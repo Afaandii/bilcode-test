@@ -252,7 +252,7 @@ class DatabaseSeeder extends Seeder
             'type' => 'deadline_approaching',
             'title' => 'Task Deadline Nearing',
             'message' => 'The deadline for task Telemetry WebSocket Handler is approaching.',
-            'read_at' => Carbon::now(),
+            'read_at' => null,
         ]);
     }
 }
