@@ -6,6 +6,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TimeLogController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Store task: Admin only
     Route::post('/projects/{projectId}/tasks', [TaskController::class, 'store'])->middleware('role:admin');
 
+    // Generate tasks via AI: Admin only
+    Route::post('/projects/{id}/tasks/generate', [TaskController::class, 'generateTasks'])->middleware('role:admin');
+
     // Update & Delete task: Admin only
     Route::patch('/tasks/{id}', [TaskController::class, 'update'])->middleware('role:admin');
     Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->middleware('role:admin');
@@ -62,10 +66,25 @@ Route::middleware('auth:sanctum')->group(function () {
     // List all tasks (with filters: assignee, status, project_id): Viewable by both
     Route::get('/tasks', [TaskController::class, 'index'])->middleware('role:admin,member');
 
+    // Get specific task detail: Viewable by both (with role checks in controller)
+    Route::get('/tasks/{id}', [TaskController::class, 'show'])->middleware('role:admin,member');
+
     // ==========================================
-    // Time Logs (Member Only)
+    // Time Logs
     // ==========================================
+    // Store time log: Member only
     Route::post('/tasks/{id}/time-logs', [TimeLogController::class, 'store'])->middleware('role:member');
+    // Get task specific time logs: Viewable by both
+    Route::get('/tasks/{id}/time-logs', [TimeLogController::class, 'getTaskTimeLogs'])->middleware('role:admin,member');
+    // List all time logs (with filters): Viewable by both
+    Route::get('/time-logs', [TimeLogController::class, 'index'])->middleware('role:admin,member');
+
+    // ==========================================
+    // Notifications (Admin & Member)
+    // ==========================================
+    Route::get('/notifications', [NotificationController::class, 'index'])->middleware('role:admin,member');
+    Route::patch('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->middleware('role:admin,member');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->middleware('role:admin,member');
 
     // ==========================================
     // Dashboard Summary (Admin Only)

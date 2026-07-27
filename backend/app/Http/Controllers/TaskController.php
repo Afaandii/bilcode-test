@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\Notification;
+use App\ml\TaskBreakdownClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,6 +64,37 @@ class TaskController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => $tasks
+        ], Response::HTTP_OK);
+    }
+
+    /**
+     * Display the specified task.
+     */
+    public function show(Request $request,int $id)
+    {
+        $task = Task::with(['project', 'assignee', 'timeLogs'])->find($id);
+
+        if (!$task) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Task not found.'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $user = $request->user();
+        $user->load('role');
+
+        // Security check: member can only view their own tasks
+        if ($user->role && $user->role->role_name === 'member' && $task->assign_id !== $user->id) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Forbidden. You do not have permission to view this task.'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $task
         ], Response::HTTP_OK);
     }
 
@@ -184,7 +216,7 @@ class TaskController extends Controller
     /**
      * Update task status (Member only).
      */
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(Request $request,int $id)
     {
         $task = Task::find($id);
 
@@ -230,7 +262,7 @@ class TaskController extends Controller
     /**
      * Remove the specified task from storage.
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $task = Task::find($id);
 
@@ -247,5 +279,45 @@ class TaskController extends Controller
             'status' => 'success',
             'message' => 'Task deleted successfully.'
         ], Response::HTTP_OK);
+    }
+
+    /**
+     * Generate task recommendations from the project brief using LLM (Admin only).
+     */
+    public function generateTasks(Request $request,int $projectId)
+    {
+        $project = Project::find($projectId);
+
+        if (!$project) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Project not found.'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        // Use brief from request if provided, otherwise fall back to project's brief
+        $brief = $request->input('brief', $project->brief);
+
+        if (empty(trim($brief))) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'A project brief is required to generate tasks.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $result = TaskBreakdownClient::generateTasks($brief);
+
+        if ($result['success']) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $result['tasks']
+            ], Response::HTTP_OK);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'AI Task generation failed: ' . $result['error'] . '. You can enter tasks manually.',
+            'data' => []
+        ], Response::HTTP_BAD_GATEWAY);
     }
 }
