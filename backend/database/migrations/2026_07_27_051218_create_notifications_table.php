@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('title');
             $table->string('message');
-            $table->timestamp('read_at');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }
