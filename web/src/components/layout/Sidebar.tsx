@@ -5,6 +5,7 @@ import {
   BsPeople, 
   BsFolderCheck, 
   BsCheck2Square, 
+  BsClockHistory,
   BsBoxArrowRight,
   BsActivity
 } from 'react-icons/bs';
@@ -69,7 +70,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ showMobile, onCloseMobile }) =
           onClick={onCloseMobile}
         >
           <span className="nav-icon"><BsCheck2Square /></span>
-          <span>Daftar Task</span>
+          <span>Daftar & Kanban Task</span>
+        </NavLink>
+
+        <NavLink 
+          to="/reports" 
+          className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+          onClick={onCloseMobile}
+        >
+          <span className="nav-icon"><BsClockHistory /></span>
+          <span>Laporan Jam Kerja</span>
         </NavLink>
 
         <div className="nav-section-title mt-4">Sistem</div>
