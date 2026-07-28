@@ -1,11 +1,14 @@
 import React from 'react';
-import { BsList, BsBell, BsPersonCircle, BsSearch } from 'react-icons/bs';
+import { BsList, BsBell, BsPersonCircle, BsSearch, BsBoxArrowRight } from 'react-icons/bs';
+import { useAuth } from '../../hooks/useAuth';
 
 interface TopbarProps {
   onToggleSidebar: () => void;
 }
 
 export const Topbar: React.FC<TopbarProps> = ({ onToggleSidebar }) => {
+  const { user, logout } = useAuth();
+
   return (
     <header className="topbar">
       <div className="d-flex align-items-center gap-3">
@@ -48,15 +51,27 @@ export const Topbar: React.FC<TopbarProps> = ({ onToggleSidebar }) => {
           >
             <BsPersonCircle size={28} className="text-primary" />
             <div className="d-none d-sm-block text-start leading-tight">
-              <div className="fw-semibold fs-7 mb-0 text-dark">Admin Bilcode</div>
-              <span className="badge bg-primary-subtle text-primary border border-primary-subtle fs-8">Project Manager</span>
+              <div className="fw-semibold fs-7 mb-0 text-dark">{user?.name || 'Admin'}</div>
+              <span className="badge bg-primary-subtle text-primary border border-primary-subtle fs-8">
+                {user?.role?.toUpperCase() || 'ADMIN'}
+              </span>
             </div>
           </button>
           <ul className="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
-            <li><h6 className="dropdown-header">Akun Admin</h6></li>
-            <li><a className="dropdown-item fs-7" href="#profile">Pengaturan Profil</a></li>
+            <li>
+              <h6 className="dropdown-header">
+                {user?.email || 'admin@example.com'}
+              </h6>
+            </li>
             <li><hr className="dropdown-divider" /></li>
-            <li><a className="dropdown-item fs-7 text-danger" href="/login">Keluar</a></li>
+            <li>
+              <button 
+                className="dropdown-item fs-7 text-danger d-flex align-items-center gap-2" 
+                onClick={logout}
+              >
+                <BsBoxArrowRight /> Keluar (Logout)
+              </button>
+            </li>
           </ul>
         </div>
       </div>

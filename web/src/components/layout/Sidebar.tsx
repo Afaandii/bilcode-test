@@ -8,6 +8,7 @@ import {
   BsBoxArrowRight,
   BsActivity
 } from 'react-icons/bs';
+import { useAuth } from '../../hooks/useAuth';
 
 interface SidebarProps {
   showMobile: boolean;
@@ -15,6 +16,14 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ showMobile, onCloseMobile }) => {
+  const { logout } = useAuth();
+
+  const handleLogout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onCloseMobile();
+    logout();
+  };
+
   return (
     <aside className={`sidebar ${showMobile ? 'show' : ''}`}>
       <NavLink to="/dashboard" className="sidebar-brand">
@@ -65,14 +74,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ showMobile, onCloseMobile }) =
 
         <div className="nav-section-title mt-4">Sistem</div>
 
-        <NavLink 
-          to="/login" 
-          className="nav-link text-danger mt-2"
-          onClick={onCloseMobile}
+        <button 
+          className="nav-link text-danger border-0 bg-transparent w-100 mt-2"
+          onClick={handleLogout}
         >
           <span className="nav-icon"><BsBoxArrowRight /></span>
           <span>Keluar (Logout)</span>
-        </NavLink>
+        </button>
       </div>
 
       <div className="p-3 border-top border-secondary border-opacity-25 fs-7 text-secondary text-center">
