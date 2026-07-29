@@ -29,7 +29,7 @@ class ClientController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'contact' => 'required|string|max:255',
+            'contact' => 'required|max:255',
             'company' => 'required|string|max:255',
         ]);
 
