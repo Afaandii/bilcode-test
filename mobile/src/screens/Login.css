@@ -1,0 +1,131 @@
+.login-content {
+  --background: linear-gradient(135deg, #1e1e2f 0%, #0f172a 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  max-width: 440px;
+  margin: 0 auto;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.brand-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.brand-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+}
+
+.brand-icon {
+  font-size: 32px;
+  color: #ffffff;
+}
+
+.brand-header h2 {
+  font-weight: 700;
+  font-size: 1.6rem;
+  margin: 0 0 4px;
+  color: #ffffff;
+}
+
+.brand-subtitle {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin: 0 0 8px;
+}
+
+.role-badge {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.login-card {
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.login-card ion-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.login-card ion-card-subtitle {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.input-item {
+  --background: rgba(255, 255, 255, 0.05);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --highlight-color-focused: #3b82f6;
+  --color: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+.input-icon {
+  color: #64748b;
+  margin-right: 8px;
+}
+
+.password-toggle {
+  --color: #64748b;
+}
+
+.login-button {
+  --background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  --border-radius: 10px;
+  font-weight: 600;
+  height: 48px;
+  margin-top: 16px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+
+.error-banner {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.error-banner ion-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.demo-credentials {
+  margin-top: 24px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+}
+
+.demo-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
