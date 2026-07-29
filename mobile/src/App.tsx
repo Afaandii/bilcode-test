@@ -1,10 +1,9 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
 import Login from './screens/Login';
+import MainTabs from './components/MainTabs';
 import { AuthProvider } from './context/AuthContext';
-import { ProtectedRoute } from './components/ProtectedRoute';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -14,7 +13,7 @@ import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
 import '@ionic/react/css/typography.css';
 
-/* Optional CSS utils that can be commented out */
+/* Optional CSS utils */
 import '@ionic/react/css/padding.css';
 import '@ionic/react/css/float-elements.css';
 import '@ionic/react/css/text-alignment.css';
@@ -36,10 +35,9 @@ const App: React.FC = () => (
       <IonReactRouter>
         <IonRouterOutlet>
           <Route exact path="/login" component={Login} />
-          <ProtectedRoute exact path="/home" component={Home} />
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
+          <Route exact path="/" render={() => <Redirect to="/tasks" />} />
+          <Route path="/tasks" component={MainTabs} />
+          <Route path="/home" component={MainTabs} />
         </IonRouterOutlet>
       </IonReactRouter>
     </AuthProvider>
