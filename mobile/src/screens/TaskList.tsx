@@ -16,6 +16,7 @@ import {
   IonIcon,
   IonSkeletonText,
   IonToast,
+  IonButtons,
   useIonViewWillEnter,
   useIonRouter,
 } from "@ionic/react";
@@ -23,8 +24,10 @@ import {
   refreshOutline,
   alertCircleOutline,
   listOutline,
+  notificationsOutline,
 } from "ionicons/icons";
 import { Task, taskService } from "../services/taskService";
+import { notificationService } from "../services/notificationService";
 import { TaskCard } from "../components/TaskCard";
 import { useAuth } from "../context/AuthContext";
 import "./TaskList.css";
@@ -35,6 +38,7 @@ export const TaskList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [unreadNotifCount, setUnreadNotifCount] = useState<number>(0);
   const [toastMessage, setToastMessage] = useState<string>("");
   const [showToast, setShowToast] = useState<boolean>(false);
 
@@ -65,23 +69,36 @@ export const TaskList: React.FC = () => {
     [selectedStatus],
   );
 
+  const fetchNotifications = useCallback(async () => {
+    try {
+      const res = await notificationService.getNotifications();
+      if (res.status === "success" && res.data) {
+        setUnreadNotifCount(notificationService.getUnreadCount(res.data));
+      }
+    } catch {
+      // Ignore background notification count error
+    }
+  }, []);
+
   useIonViewWillEnter(() => {
     fetchTasks();
+    fetchNotifications();
   });
 
   useEffect(() => {
     fetchTasks(selectedStatus);
+    fetchNotifications();
   }, [selectedStatus]);
 
   const handleRefresh = async (event: CustomEvent) => {
-    await fetchTasks(selectedStatus);
+    await Promise.all([fetchTasks(selectedStatus), fetchNotifications()]);
     event.detail.complete();
-    setToastMessage("Daftar task berhasil diperbarui");
+    setToastMessage("Daftar task dan notifikasi diperbarui");
     setShowToast(true);
   };
 
   const handleTaskClick = (task: Task) => {
-    router.push(`/tasks/${task.id}`);
+    router.push(`/tasks/detail/${task.id}`);
   };
 
   // Filter tasks locally by search query
@@ -118,14 +135,35 @@ export const TaskList: React.FC = () => {
               )}
             </div>
           </IonTitle>
-          <IonButton
-            slot="end"
-            fill="clear"
-            color="light"
-            onClick={() => fetchTasks()}
-          >
-            <IonIcon icon={refreshOutline} slot="icon-only" />
-          </IonButton>
+
+          <IonButtons slot="end">
+            {/* Notification Bell Button */}
+            <IonButton
+              fill="clear"
+              color="light"
+              onClick={() => router.push("/notifications")}
+              className="notif-bell-btn"
+            >
+              <IonIcon icon={notificationsOutline} slot="icon-only" />
+              {unreadNotifCount > 0 && (
+                <IonBadge color="danger" className="toolbar-notif-badge">
+                  {unreadNotifCount}
+                </IonBadge>
+              )}
+            </IonButton>
+
+            {/* Refresh Button */}
+            <IonButton
+              fill="clear"
+              color="light"
+              onClick={() => {
+                fetchTasks();
+                fetchNotifications();
+              }}
+            >
+              <IonIcon icon={refreshOutline} slot="icon-only" />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
 
         {/* Filter Segment Tabs */}

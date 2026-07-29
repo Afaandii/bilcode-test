@@ -32,6 +32,21 @@ export interface Task {
   assignee?: AssigneeInfo;
 }
 
+export interface TimeLog {
+  id: number;
+  task_id: number;
+  user_id: number;
+  description: string;
+  hours: string;
+  created_at: string;
+  updated_at?: string;
+  user?: {
+    id: number;
+    name: string;
+    email: string;
+  };
+}
+
 export const taskService = {
   async getTasks(status?: string, projectId?: number): Promise<ApiResponse<Task[]>> {
     const params = new URLSearchParams();
@@ -61,16 +76,29 @@ export const taskService = {
     });
   },
 
+  async getTimeLogs(taskId: number): Promise<ApiResponse<TimeLog[]>> {
+    return await apiFetch<TimeLog[]>(`/tasks/${taskId}/time-logs`, {
+      method: 'GET',
+    });
+  },
+
+  async addTimeLog(taskId: number, description: string, hours: string): Promise<ApiResponse<TimeLog>> {
+    return await apiFetch<TimeLog>(`/tasks/${taskId}/time-logs`, {
+      method: 'POST',
+      body: JSON.stringify({ description, hours }),
+    });
+  },
+
   getStatusBadgeColor(status: TaskStatus): string {
     switch (status) {
       case 'todo':
-        return 'warning'; // Orange / Yellow
+        return 'warning';
       case 'in_progress':
-        return 'primary'; // Blue
+        return 'primary';
       case 'review':
-        return 'tertiary'; // Purple
+        return 'tertiary';
       case 'done':
-        return 'success'; // Green
+        return 'success';
       default:
         return 'medium';
     }

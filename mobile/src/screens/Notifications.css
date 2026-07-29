@@ -1,0 +1,158 @@
+.notifications-content {
+  --background: #0b1329;
+}
+
+.notif-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.unread-badge {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.action-toolbar {
+  --background: #0f172a;
+  padding: 0 8px;
+}
+
+.mark-all-btn {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.notif-card {
+  background: #1e293b;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  position: relative;
+}
+
+.notif-card:active {
+  transform: scale(0.98);
+}
+
+.notif-card.unread {
+  border-left: 4px solid #3b82f6;
+  background: #172033;
+}
+
+.notif-icon-wrapper {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.task-icon {
+  font-size: 22px;
+  color: #3b82f6;
+}
+
+.deadline-icon {
+  font-size: 22px;
+  color: #f59e0b;
+}
+
+.notif-body {
+  flex: 1;
+}
+
+.notif-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.notif-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.unread-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3b82f6;
+  flex-shrink: 0;
+}
+
+.notif-message {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.notif-time {
+  font-size: 0.725rem;
+  color: #64748b;
+  display: block;
+}
+
+.notif-arrow {
+  color: #475569;
+  align-self: center;
+  display: flex;
+  align-items: center;
+}
+
+.empty-notif-state {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.empty-notif-box {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.empty-notif-box ion-icon {
+  font-size: 36px;
+  color: #3b82f6;
+}
+
+.empty-notif-state h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #f8fafc;
+  margin-bottom: 8px;
+}
+
+.empty-notif-state p {
+  color: #64748b;
+  font-size: 0.9rem;
+  max-width: 280px;
+  margin: 0 auto;
+}

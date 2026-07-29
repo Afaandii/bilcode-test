@@ -10,6 +10,20 @@
   opacity: 0.85;
 }
 
+.notif-bell-btn {
+  position: relative;
+}
+
+.toolbar-notif-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 0.65rem;
+  padding: 2px 5px;
+  border-radius: 10px;
+  border: 1px solid #ffffff;
+}
+
 .segment-toolbar {
   --background: #0f172a;
   padding: 0 4px;
