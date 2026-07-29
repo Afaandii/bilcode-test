@@ -1,0 +1,114 @@
+.toolbar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-greeting {
+  font-size: 0.8rem;
+  font-weight: normal;
+  opacity: 0.85;
+}
+
+.segment-toolbar {
+  --background: #0f172a;
+  padding: 0 4px;
+}
+
+ion-segment {
+  --background: transparent;
+}
+
+ion-segment-button {
+  --color: #94a3b8;
+  --color-checked: #3b82f6;
+  --border-radius: 8px;
+  min-width: 90px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+ion-segment-button ion-badge {
+  margin-left: 6px;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+}
+
+.task-list-content {
+  --background: #0b1329;
+}
+
+.task-searchbar {
+  --background: #1e293b;
+  --color: #f8fafc;
+  --placeholder-color: #64748b;
+  --icon-color: #64748b;
+  --border-radius: 12px;
+  padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 12px;
+}
+
+.error-container {
+  text-align: center;
+  padding: 32px 16px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 14px;
+  margin: 16px 0;
+}
+
+.error-icon {
+  font-size: 48px;
+  color: #ef4444;
+  margin-bottom: 8px;
+}
+
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.skeleton-card {
+  padding: 16px;
+  background: #1e293b;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.empty-icon-wrapper {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.empty-icon-wrapper ion-icon {
+  font-size: 36px;
+  color: #64748b;
+}
+
+.empty-state h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #f8fafc;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  color: #64748b;
+  font-size: 0.9rem;
+  max-width: 280px;
+  margin: 0 auto;
+}
