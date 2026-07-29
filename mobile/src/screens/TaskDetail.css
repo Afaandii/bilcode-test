@@ -203,7 +203,7 @@
   border-radius: 14px;
   background: #1e293b;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  margin: 0;
+  margin: 0 0 16px 0;
 }
 
 .next-action-button {
@@ -227,4 +227,84 @@
 
 .status-segment ion-segment-button {
   font-size: 0.75rem;
+}
+
+/* Time Log Section */
+.timelog-card {
+  border-radius: 14px;
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 0 0 24px 0;
+}
+
+.timelog-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timelog-header-row ion-card-subtitle strong {
+  color: #3b82f6;
+}
+
+.empty-timelog {
+  text-align: center;
+  padding: 24px 12px;
+  color: #64748b;
+}
+
+.empty-log-icon {
+  font-size: 36px;
+  margin-bottom: 6px;
+}
+
+.empty-timelog p {
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+
+.timelog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.timelog-item {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.timelog-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.log-author {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+}
+
+.log-hours-badge {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+}
+
+.log-desc {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  margin: 4px 0 8px 0;
+  line-height: 1.4;
+}
+
+.log-date {
+  font-size: 0.725rem;
+  color: #64748b;
+  display: block;
 }

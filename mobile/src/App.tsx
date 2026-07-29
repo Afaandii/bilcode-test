@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Login from './screens/Login';
@@ -34,10 +34,14 @@ const App: React.FC = () => (
     <AuthProvider>
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/" render={() => <Redirect to="/tasks" />} />
-          <Route path="/tasks" component={MainTabs} />
-          <Route path="/home" component={MainTabs} />
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/" render={() => <Redirect to="/tasks" />} />
+            <Route path="/tasks" component={MainTabs} />
+            <Route path="/completed-tasks" component={MainTabs} />
+            <Route path="/notifications" component={MainTabs} />
+            <Route path="/home" component={MainTabs} />
+          </Switch>
         </IonRouterOutlet>
       </IonReactRouter>
     </AuthProvider>

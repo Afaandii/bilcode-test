@@ -20,7 +20,6 @@ import {
   IonSegment,
   IonSegmentButton,
   IonLabel,
-  // useIonRouter,
 } from "@ionic/react";
 import { useParams } from "react-router-dom";
 import {
@@ -33,8 +32,17 @@ import {
   playCircleOutline,
   eyeOutline,
   refreshOutline,
+  addCircleOutline,
+  timeOutline as timeLogIcon,
+  documentTextOutline,
 } from "ionicons/icons";
-import { Task, TaskStatus, taskService } from "../services/taskService";
+import {
+  Task,
+  TaskStatus,
+  TimeLog,
+  taskService,
+} from "../services/taskService";
+import TimeLogModal from "../components/TimeLogModal";
 import "./TaskDetail.css";
 
 export const TaskDetail: React.FC = () => {
@@ -42,13 +50,14 @@ export const TaskDetail: React.FC = () => {
   const taskId = parseInt(id, 10);
 
   const [task, setTask] = useState<Task | null>(null);
+  const [timeLogs, setTimeLogs] = useState<TimeLog[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingLogs, setLoadingLogs] = useState<boolean>(false);
   const [updating, setUpdating] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string>("");
   const [showToast, setShowToast] = useState<boolean>(false);
-
-  // const router = useIonRouter();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const fetchTaskDetail = async () => {
     if (isNaN(taskId)) return;
@@ -69,8 +78,24 @@ export const TaskDetail: React.FC = () => {
     }
   };
 
+  const fetchTimeLogs = async () => {
+    if (isNaN(taskId)) return;
+    setLoadingLogs(true);
+    try {
+      const response = await taskService.getTimeLogs(taskId);
+      if (response.status === "success" && response.data) {
+        setTimeLogs(response.data);
+      }
+    } catch {
+      // Ignore background log fetch error
+    } finally {
+      setLoadingLogs(false);
+    }
+  };
+
   useEffect(() => {
     fetchTaskDetail();
+    fetchTimeLogs();
   }, [taskId]);
 
   const handleUpdateStatus = async (newStatus: TaskStatus) => {
@@ -97,6 +122,12 @@ export const TaskDetail: React.FC = () => {
     } finally {
       setUpdating(false);
     }
+  };
+
+  const handleTimeLogAdded = (newLog: TimeLog) => {
+    setTimeLogs((prev) => [newLog, ...prev]);
+    setToastMessage("Catatan progres & log waktu berhasil ditambahkan!");
+    setShowToast(true);
   };
 
   const getNextStatusAction = () => {
@@ -143,6 +174,37 @@ export const TaskDetail: React.FC = () => {
     return deadlineDate < today;
   };
 
+  const calculateTotalLoggedTime = (): string => {
+    let totalMinutes = 0;
+    timeLogs.forEach((log) => {
+      if (log.hours) {
+        const parts = log.hours.split(":");
+        const h = parseInt(parts[0] || "0", 10);
+        const m = parseInt(parts[1] || "0", 10);
+        totalMinutes += h * 60 + m;
+      }
+    });
+
+    const hours = Math.floor(totalMinutes / 60);
+    const mins = totalMinutes % 60;
+    return `${hours} jam ${mins} menit`;
+  };
+
+  const formatDate = (dateStr: string): string => {
+    try {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } catch {
+      return dateStr;
+    }
+  };
+
   const stages: { key: TaskStatus; label: string }[] = [
     { key: "todo", label: "To Do" },
     { key: "in_progress", label: "In Progress" },
@@ -165,7 +227,14 @@ export const TaskDetail: React.FC = () => {
           </IonButtons>
           <IonTitle>Detail Task</IonTitle>
           <IonButtons slot="end">
-            <IonButton fill="clear" color="light" onClick={fetchTaskDetail}>
+            <IonButton
+              fill="clear"
+              color="light"
+              onClick={() => {
+                fetchTaskDetail();
+                fetchTimeLogs();
+              }}
+            >
               <IonIcon icon={refreshOutline} slot="icon-only" />
             </IonButton>
           </IonButtons>
@@ -361,6 +430,108 @@ export const TaskDetail: React.FC = () => {
                 </IonSegment>
               </IonCardContent>
             </IonCard>
+
+            {/* Time Logging & Progress Notes Card */}
+            <IonCard className="timelog-card">
+              <IonCardHeader>
+                <div className="timelog-header-row">
+                  <div>
+                    <IonCardTitle style={{ fontSize: "1.1rem" }}>
+                      <IonIcon
+                        icon={timeLogIcon}
+                        color="secondary"
+                        style={{ marginRight: "8px" }}
+                      />
+                      Log Waktu & Catatan Progres
+                    </IonCardTitle>
+                    <IonCardSubtitle>
+                      Total Terakumulasi:{" "}
+                      <strong>{calculateTotalLoggedTime()}</strong>
+                    </IonCardSubtitle>
+                  </div>
+                  <IonButton
+                    color="secondary"
+                    size="small"
+                    shape="round"
+                    onClick={() => setIsModalOpen(true)}
+                  >
+                    <IonIcon icon={addCircleOutline} slot="start" />
+                    Tambah Log
+                  </IonButton>
+                </div>
+              </IonCardHeader>
+
+              <IonCardContent>
+                {loadingLogs && (
+                  <div
+                    style={{
+                      textAlign: "center",
+                      padding: "16px",
+                      color: "#94a3b8",
+                    }}
+                  >
+                    <IonSpinner name="crescent" color="secondary" />
+                    <p style={{ fontSize: "0.85rem" }}>
+                      Memuat riwayat log waktu...
+                    </p>
+                  </div>
+                )}
+
+                {!loadingLogs && timeLogs.length === 0 && (
+                  <div className="empty-timelog">
+                    <IonIcon
+                      icon={documentTextOutline}
+                      className="empty-log-icon"
+                    />
+                    <p>
+                      Belum ada catatan progres atau log waktu untuk task ini.
+                    </p>
+                    <IonButton
+                      fill="outline"
+                      size="small"
+                      color="secondary"
+                      onClick={() => setIsModalOpen(true)}
+                    >
+                      + Tambah Log Pertama
+                    </IonButton>
+                  </div>
+                )}
+
+                {!loadingLogs && timeLogs.length > 0 && (
+                  <div className="timelog-list">
+                    {timeLogs.map((log) => (
+                      <div key={log.id} className="timelog-item">
+                        <div className="timelog-top">
+                          <span className="log-author">
+                            <IonIcon
+                              icon={personOutline}
+                              style={{ marginRight: "4px" }}
+                            />
+                            {log.user?.name || "Member"}
+                          </span>
+                          <IonBadge color="primary" className="log-hours-badge">
+                            ⏱️ {log.hours} jam
+                          </IonBadge>
+                        </div>
+                        <p className="log-desc">{log.description}</p>
+                        <span className="log-date">
+                          {formatDate(log.created_at)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </IonCardContent>
+            </IonCard>
+
+            {/* Time Log Modal */}
+            <TimeLogModal
+              isOpen={isModalOpen}
+              taskId={task.id}
+              taskTitle={task.title}
+              onClose={() => setIsModalOpen(false)}
+              onSuccess={handleTimeLogAdded}
+            />
           </div>
         )}
 
