@@ -20,24 +20,20 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /app
 
-# Copy dependency manifests
-COPY composer.json composer.lock ./
+# 1. Copy SELURUH source code terlebih dahulu (agar file artisan & bootstrap sudah ada)
+COPY . .
 
-# Install PHP dependencies
+# 2. Tambahkan opsi --no-scripts agar composer tidak memanggil artisan sebelum vendor siap,
+#    atau jalankan composer install biasa karena artisan sudah ter-copy
 RUN composer install \
     --no-dev \
     --prefer-dist \
     --optimize-autoloader \
     --no-interaction
 
-# Copy application source
-COPY . .
-
-# Optimize autoloader
-RUN composer dump-autoload --optimize
-
-# Set directory permissions
-RUN chmod -R 775 storage bootstrap/cache
+# 3. Buat folder bootstrap/cache dan storage jika belum ada, lalu atur permission
+RUN mkdir -p storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
 # Expose Laravel port
 EXPOSE 8000
