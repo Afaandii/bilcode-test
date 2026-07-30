@@ -30,6 +30,13 @@ export interface TimeLogItem {
 export interface FullProjectTask extends ProjectTask {
   time_logs?: TimeLogItem[];
   timeLogs?: TimeLogItem[];
+  project?: {
+    client_id: number;
+    name: string;
+    brief: string;
+    deadline: string;
+    status: "active" | "completed" | "on_hold";
+  };
 }
 
 export interface TaskFilters {
