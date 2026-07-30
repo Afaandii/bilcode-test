@@ -6,10 +6,8 @@ import {
   BsFolderCheck,
   BsCheck2Square,
   BsClockHistory,
-  // BsBoxArrowRight,
   BsActivity,
 } from "react-icons/bs";
-// import { useAuth } from "../../hooks/useAuth";
 
 interface SidebarProps {
   showMobile: boolean;
@@ -20,23 +18,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
   showMobile,
   onCloseMobile,
 }) => {
-  // const { logout } = useAuth();
-
-  // const handleLogout = (e: React.MouseEvent) => {
-  //   e.preventDefault();
-  //   onCloseMobile();
-  //   logout();
-  // };
-
   return (
     <aside className={`sidebar ${showMobile ? "show" : ""}`}>
+      {/* ── Brand ── */}
       <NavLink to="/dashboard" className="sidebar-brand">
-        <div className="brand-icon">
-          <BsActivity size={22} />
+        <div className="sidebar-brand-icon">
+          <BsActivity size={20} />
         </div>
-        <span>ProjectPulse</span>
+        <span className="sidebar-brand-name">ProjectPulse</span>
       </NavLink>
 
+      {/* ── Navigation ── */}
       <div className="sidebar-nav">
         <div className="nav-section-title">Menu Utama</div>
 
@@ -45,9 +37,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           onClick={onCloseMobile}
         >
-          <span className="nav-icon">
-            <BsSpeedometer2 />
-          </span>
+          <span className="nav-icon"><BsSpeedometer2 /></span>
           <span>Dashboard</span>
         </NavLink>
 
@@ -56,9 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           onClick={onCloseMobile}
         >
-          <span className="nav-icon">
-            <BsPeople />
-          </span>
+          <span className="nav-icon"><BsPeople /></span>
           <span>Manajemen Klien</span>
         </NavLink>
 
@@ -67,9 +55,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           onClick={onCloseMobile}
         >
-          <span className="nav-icon">
-            <BsFolderCheck />
-          </span>
+          <span className="nav-icon"><BsFolderCheck /></span>
           <span>Manajemen Proyek</span>
         </NavLink>
 
@@ -78,10 +64,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           onClick={onCloseMobile}
         >
-          <span className="nav-icon">
-            <BsCheck2Square />
-          </span>
-          <span>Daftar & Kanban Task</span>
+          <span className="nav-icon"><BsCheck2Square /></span>
+          <span>Daftar &amp; Kanban Task</span>
         </NavLink>
 
         <NavLink
@@ -89,25 +73,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
           className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           onClick={onCloseMobile}
         >
-          <span className="nav-icon">
-            <BsClockHistory />
-          </span>
+          <span className="nav-icon"><BsClockHistory /></span>
           <span>Laporan Jam Kerja</span>
         </NavLink>
-
-        {/* <div className="nav-section-title mt-4">Sistem</div>
-
-        <button 
-          className="nav-link text-danger border-0 bg-transparent w-100 mt-2"
-          onClick={handleLogout}
-        >
-          <span className="nav-icon"><BsBoxArrowRight /></span>
-          <span>Keluar (Logout)</span>
-        </button> */}
       </div>
 
-      <div className="p-3 border-top border-secondary border-opacity-25 fs-7 text-secondary text-center">
-        <small>ProjectPulse v1.0 &bull; Admin</small>
+      {/* ── Footer ── */}
+      <div className="sidebar-footer">
+        <p className="sidebar-footer-text">ProjectPulse v1.0 &bull; Admin</p>
       </div>
     </aside>
   );

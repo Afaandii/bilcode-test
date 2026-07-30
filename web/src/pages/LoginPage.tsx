@@ -5,6 +5,9 @@ import {
   BsLock,
   BsPerson,
   BsExclamationTriangle,
+  BsShieldCheck,
+  BsPeopleFill,
+  BsGraphUpArrow,
 } from "react-icons/bs";
 import { useAuth } from "../hooks/useAuth";
 
@@ -12,8 +15,8 @@ export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login, isAuthenticated, error: authError, clearError } = useAuth();
 
-  const [email, setEmail] = useState("admin@example.com");
-  const [password, setPassword] = useState("password");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
@@ -46,94 +49,145 @@ export const LoginPage: React.FC = () => {
   const displayError = localError || authError;
 
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light px-3">
-      <div
-        className="card border-0 shadow-lg p-4 p-md-5 rounded-4"
-        style={{ maxWidth: "440px", width: "100%" }}
-      >
-        <div className="text-center mb-4">
-          <div className="d-inline-flex align-items-center justify-content-center bg-primary bg-gradient text-white rounded-4 p-3 mb-3 shadow">
-            <BsActivity size={32} />
+    <div className="login-page">
+      {/* ── Brand Panel (kiri) ── */}
+      <div className="login-brand-panel">
+        {/* Floating orbs dekoratif */}
+        <div className="login-orb login-orb-1" />
+        <div className="login-orb login-orb-2" />
+        <div className="login-orb login-orb-3" />
+        <div className="login-orb login-orb-4" />
+
+        <div className="login-brand-content">
+          <div className="login-brand-logo">
+            <BsActivity />
           </div>
-          <h4 className="fw-bold text-dark mb-1">ProjectPulse Admin</h4>
-          <p className="text-muted fs-7">
-            Masuk dengan token Sanctum sebagai Admin / PM
+          <h1 className="login-brand-title">ProjectPulse</h1>
+          <p className="login-brand-subtitle">
+            Platform manajemen proyek terpadu untuk tim Admin & Project Manager
+            yang modern dan efisien.
           </p>
+
+          <div className="login-brand-features">
+            <div className="login-brand-feature">
+              <div className="login-brand-feature-icon">
+                <BsShieldCheck />
+              </div>
+              <span className="login-brand-feature-text">
+                Autentikasi aman dengan Laravel Sanctum Token
+              </span>
+            </div>
+            <div className="login-brand-feature">
+              <div className="login-brand-feature-icon">
+                <BsPeopleFill />
+              </div>
+              <span className="login-brand-feature-text">
+                Kelola klien, tim, dan proyek dalam satu dashboard
+              </span>
+            </div>
+            <div className="login-brand-feature">
+              <div className="login-brand-feature-icon">
+                <BsGraphUpArrow />
+              </div>
+              <span className="login-brand-feature-text">
+                Laporan real-time dan analitik progres proyek
+              </span>
+            </div>
+          </div>
         </div>
 
-        {displayError && (
-          <div
-            className="alert alert-danger d-flex align-items-center gap-2 py-2 px-3 fs-7 mb-3 rounded-3"
-            role="alert"
-          >
-            <BsExclamationTriangle className="flex-shrink-0" size={18} />
-            <div>{displayError}</div>
-          </div>
-        )}
+        <div className="login-brand-footer">
+          © 2025 Bilcode Technology. All rights reserved.
+        </div>
+      </div>
 
-        <form onSubmit={handleLogin}>
-          <div className="mb-3">
-            <label className="form-label fw-semibold fs-7 text-secondary">
-              Email Admin
-            </label>
-            <div className="input-group">
-              <span className="input-group-text bg-light border-end-0 text-muted">
-                <BsPerson />
-              </span>
-              <input
-                type="email"
-                className="form-control border-start-0 ps-0"
-                placeholder="admin@example.com"
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={isSubmitting}
-              />
+      {/* ── Form Panel (kanan) ── */}
+      <div className="login-form-panel">
+        <div className="login-card">
+          {/* Header */}
+          <div className="login-card-header">
+            <div className="login-card-icon">
+              <BsActivity />
             </div>
+            <h2 className="login-card-title">ProjectPulse Admin</h2>
+            <p className="login-card-desc">
+              Masuk dengan token Sanctum sebagai Admin / PM
+            </p>
           </div>
 
-          <div className="mb-4">
-            <label className="form-label fw-semibold fs-7 text-secondary">
-              Kata Sandi
-            </label>
-            <div className="input-group">
-              <span className="input-group-text bg-light border-end-0 text-muted">
-                <BsLock />
-              </span>
-              <input
-                type="password"
-                className="form-control border-start-0 ps-0"
-                placeholder="••••••••"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={isSubmitting}
+          {/* Error Alert */}
+          {displayError && (
+            <div className="login-alert-error" role="alert">
+              <BsExclamationTriangle
+                className="login-alert-error-icon"
+                size={16}
               />
+              <div>{displayError}</div>
             </div>
+          )}
+
+          {/* Form */}
+          <form onSubmit={handleLogin}>
+            <div className="login-form-group">
+              <label className="login-form-label">Email Admin</label>
+              <div className="login-input-wrapper">
+                <span className="login-input-icon">
+                  <BsPerson />
+                </span>
+                <input
+                  type="email"
+                  className="login-input"
+                  placeholder="admin@example.com"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                />
+              </div>
+            </div>
+
+            <div className="login-form-group">
+              <label className="login-form-label">Kata Sandi</label>
+              <div className="login-input-wrapper">
+                <span className="login-input-icon">
+                  <BsLock />
+                </span>
+                <input
+                  type="password"
+                  className="login-input"
+                  placeholder="••••••••"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="login-btn-primary"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <span
+                    className="login-spinner"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  <span>Memproses Login...</span>
+                </>
+              ) : (
+                <span>Masuk ke Dashboard</span>
+              )}
+            </button>
+          </form>
+
+          {/* Footer */}
+          <div className="login-card-footer">
+            <p className="login-card-footer-text">
+              <span>Bilcode Technology</span> &bull; Sanctum Token Auth
+            </p>
           </div>
-
-          <button
-            type="submit"
-            className="btn btn-primary w-100 py-2.5 rounded-3 fw-semibold shadow-sm d-flex align-items-center justify-content-center gap-2"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <span
-                  className="spinner-border spinner-border-sm"
-                  role="status"
-                  aria-hidden="true"
-                ></span>
-                <span>Memproses Login...</span>
-              </>
-            ) : (
-              <span>Masuk ke Dashboard</span>
-            )}
-          </button>
-        </form>
-
-        <div className="text-center mt-4">
-          <small className="text-muted">
-            Bilcode Technology &bull; Sanctum Token Auth
-          </small>
         </div>
       </div>
     </div>
