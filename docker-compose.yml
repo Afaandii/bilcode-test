@@ -2,10 +2,10 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:16-alpine
+    image: postgres:15-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_DATABASE:-bilcode_projectpulse}
+      POSTGRES_DB: ${DB_DATABASE:-bilcode_test}
       POSTGRES_USER: ${DB_USERNAME:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
     ports:
@@ -18,6 +18,8 @@ services:
       context: ./backend
     env_file:
       - ./backend/.env
+    environment:
+      DB_HOST: db
     depends_on:
       - db
     ports:
@@ -27,11 +29,11 @@ services:
     build:
       context: ./web
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000
+      VITE_API_URL: http://backend:8000
     depends_on:
       - backend
     ports:
-      - "3000:3000"
+      - "3000:80"
 
 volumes:
   db_data:
