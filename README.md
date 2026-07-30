@@ -189,9 +189,16 @@ bilcode-test/
 
 ## 📱 Demo & Screenshot Mobile App
 
-| Halaman Login Mobile                              | Daftar & Detail Task Mobile                               |
-| ------------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------------------- | --- | ------------------------------------------------------------- |
-| ![Mobile Login](docs/screenshot/mobile-login.jpg) | ![Mobile Task List](docs/screenshot/mobile-list-task.jpg) | ![Mobile Profile](docs/screenshot/mobile-profile.jpg) | ![Mobile Complete Task](docs/screenshot/mobile-complete-task.jpg) |     | ![Mobile Detail Task](docs/screenshot/mobile-detail-task.jpg) |
+<p align="center">
+  <img src="docs/screenshot/mobile-login.jpg" width="220" alt="Login Page" />
+  <img src="docs/screenshot/mobile-list-task.jpg" width="220" alt="Daftar Task" />
+  <img src="docs/screenshot/mobile-detail-task.jpg" width="220" alt="Detail Task" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshot/mobile-complete-task.jpg" width="220" alt="Task Selesai" />
+  <img src="docs/screenshot/mobile-profile.jpg" width="220" alt="Profil Member" />
+</p>
 
 ---
 
