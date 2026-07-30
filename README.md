@@ -196,4 +196,4 @@ bilcode-test/
 
 - **Dokumentasi API (Postman Collection):** Berkas Postman Collection telah disertakan dan dapat di-import langsung dari [docs/bilcode-api-docs.postman_collection.json](file:///c:/repo-github/bilcode-test/docs/bilcode-api-docs.postman_collection.json).
 - **Dokumentasi Arsitektur Lengkap:** Buka file [docs/architecture.md](file:///c:/repo-github/bilcode-test/docs/architecture.md) untuk mempelajari keputusan teknis, alur data, skema database, dan strategi resiliensi.
-- **Portofolio Kandidat:** [https://github.com/afaandii](https://github.com/afaandii)
+- **Portofolio Kandidat:** [https://ahmad-afandi.vercel.app](https://ahmad-afandi.vercel.app)
