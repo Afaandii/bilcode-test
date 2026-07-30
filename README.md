@@ -23,7 +23,7 @@ ProjectPulse adalah platform manajemen klien, proyek, dan tugas internal yang di
 ### 1. Prasyarat Sistem
 
 - Docker & Docker Compose (v2.0+)
-- Node.js (v18+) & NPM
+- Node.js (v22.20) & NPM
 - PHP (v8.2+) & Composer
 - Kubernetes Cluster Lokal (Minikube / Kind / K3d) & `kubectl` (untuk opsi K8s)
 
@@ -113,15 +113,16 @@ Aplikasi mobile berada di direktori `mobile/`.
 2. **Menjalankan di Browser (Development Mode):**
 
    ```bash
-   npm run dev
+   ionic serve
    ```
 
    Aplikasi mobile dapat diakses di `http://localhost:5173` (aktifkan Responsive Device Mode di browser DevTools).
 
 3. **Menjalankan di Emulator Android (via Capacitor):**
    ```bash
-   npx cap copy
-   npx cap open android
+   ionic build
+   ionic cap sync android
+   ionic cap open android
    ```
    _(Buka Android Studio, lalu klik tombol **Run** untuk menjalankan di Emulator Android)._
 
@@ -131,11 +132,11 @@ Aplikasi mobile berada di direktori `mobile/`.
 
 Setelah menjalankan `php artisan db:seed`, gunakan akun berikut untuk mencoba sistem:
 
-| Role                  | Email                  | Password   | Platform                                |
-| --------------------- | ---------------------- | ---------- | --------------------------------------- |
-| **Admin / PM**        | `admin@bilcode.com`    | `password` | Web Dashboard (`http://localhost:3000`) |
-| **Member (Dev)**      | `member@bilcode.com`   | `password` | Mobile App (`http://localhost:5173`)    |
-| **Member (Desainer)** | `designer@bilcode.com` | `password` | Mobile App (`http://localhost:5173`)    |
+| Role                  | Email                    | Password   | Platform                                |
+| --------------------- | ------------------------ | ---------- | --------------------------------------- |
+| **Admin / PM**        | `admin@projectpulse.com` | `password` | Web Dashboard (`http://localhost:3000`) |
+| **Member (Dev)**      | `jane@projectpulse.com`  | `password` | Mobile App (`http://localhost:5173`)    |
+| **Member (Desainer)** | `bob@projectpulse.com`   | `password` | Mobile App (`http://localhost:5173`)    |
 
 ---
 
@@ -155,7 +156,7 @@ Setelah menjalankan `php artisan db:seed`, gunakan akun berikut untuk mencoba si
 
 ```
 bilcode-test/
-├── backend/                # Laravel 11 API Backend & LLM Client
+├── backend/                # Laravel 13 API Backend & LLM Client
 │   ├── app/ml/             # TaskBreakdownClient (Google Gemini Integration)
 │   ├── routes/api.php      # API Endpoint Routes
 │   ├── Dockerfile
@@ -177,7 +178,9 @@ bilcode-test/
 │   ├── ingress.yaml
 │   └── hpa.yaml
 ├── docs/
-│   └── architecture.md     # Dokumentasi Keputusan Arsitektur
+│   ├── architecture.md     # Dokumentasi Keputusan Arsitektur
+│   ├── bilcode-api-docs.postman_collection.json # Collection API Postman
+│   └── screenshot/         # Screenshot Hasil Pengujian Mobile App
 ├── docker-compose.yml      # Development Environment Setup
 └── README.md               # Dokumen Utama Submission
 ```
