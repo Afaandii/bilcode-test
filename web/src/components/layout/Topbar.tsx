@@ -1,78 +1,159 @@
-import React from 'react';
-import { BsList, BsBell, BsPersonCircle, BsSearch, BsBoxArrowRight } from 'react-icons/bs';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  BsList,
+  BsBell,
+  BsSearch,
+  BsBoxArrowRight,
+  BsSun,
+  BsMoon,
+  BsLaptop,
+} from 'react-icons/bs';
 import { useAuth } from '../../hooks/useAuth';
+import { type Theme } from '../../hooks/useTheme';
 
 interface TopbarProps {
   onToggleSidebar: () => void;
+  theme: Theme;
+  onThemeChange: (theme: Theme) => void;
 }
 
-export const Topbar: React.FC<TopbarProps> = ({ onToggleSidebar }) => {
+export const Topbar: React.FC<TopbarProps> = ({
+  onToggleSidebar,
+  theme,
+  onThemeChange,
+}) => {
   const { user, logout } = useAuth();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isDropdownOpen]);
+
+  // Get user initials for avatar
+  const getInitials = (name?: string): string => {
+    if (!name) return 'A';
+    const parts = name.trim().split(' ');
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+  };
 
   return (
     <header className="topbar">
-      <div className="d-flex align-items-center gap-3">
-        <button 
-          className="btn btn-light d-lg-none p-2 rounded-circle"
+      {/* ── Left: Toggle + Search ── */}
+      <div className="topbar-left">
+        <button
+          className="topbar-menu-btn d-lg-none"
           onClick={onToggleSidebar}
           aria-label="Toggle Sidebar"
         >
-          <BsList size={22} />
+          <BsList size={20} />
         </button>
 
-        <div className="d-none d-md-flex align-items-center position-relative" style={{ width: '280px' }}>
-          <BsSearch className="position-absolute ms-3 text-muted" />
-          <input 
-            type="search" 
-            className="form-control form-control-sm ps-5 rounded-pill bg-light border-0" 
+        <div className="topbar-search d-none d-md-flex">
+          <BsSearch className="topbar-search-icon" />
+          <input
+            type="search"
+            className="topbar-search-input"
             placeholder="Cari proyek, klien, atau task..."
+            aria-label="Pencarian"
           />
         </div>
       </div>
 
-      <div className="d-flex align-items-center gap-3">
+      {/* ── Right: Theme + Bell + Profile ── */}
+      <div className="topbar-right">
+
+        {/* Theme Toggle */}
+        <div className="theme-toggle" role="group" aria-label="Pilih tema">
+          <button
+            className={`theme-toggle-btn ${theme === 'light' ? 'active' : ''}`}
+            onClick={() => onThemeChange('light')}
+            title="Tema Terang"
+            aria-label="Tema Terang"
+            aria-pressed={theme === 'light'}
+          >
+            <BsSun />
+          </button>
+          <button
+            className={`theme-toggle-btn ${theme === 'dark' ? 'active' : ''}`}
+            onClick={() => onThemeChange('dark')}
+            title="Tema Gelap"
+            aria-label="Tema Gelap"
+            aria-pressed={theme === 'dark'}
+          >
+            <BsMoon />
+          </button>
+          <button
+            className={`theme-toggle-btn ${theme === 'system' ? 'active' : ''}`}
+            onClick={() => onThemeChange('system')}
+            title="Ikuti Perangkat"
+            aria-label="Ikuti Perangkat"
+            aria-pressed={theme === 'system'}
+          >
+            <BsLaptop />
+          </button>
+        </div>
+
+        <div className="topbar-divider" />
+
         {/* Notification Bell */}
-        <button className="btn btn-light position-relative rounded-circle p-2 border-0">
-          <BsBell size={18} className="text-secondary" />
-          <span className="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
-            <span className="visually-hidden">Notifikasi Baru</span>
-          </span>
+        <button className="topbar-notif-btn" aria-label="Notifikasi">
+          <BsBell size={16} />
+          <span className="topbar-notif-badge" aria-hidden="true" />
         </button>
 
-        <div className="vr d-none d-sm-block my-2 text-muted opacity-25"></div>
+        <div className="topbar-divider" />
 
-        {/* Admin Profile */}
-        <div className="dropdown">
-          <button 
-            className="btn btn-link text-decoration-none text-dark d-flex align-items-center gap-2 p-0 border-0 dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+        {/* User Profile Dropdown */}
+        <div className="topbar-dropdown" ref={dropdownRef}>
+          <button
+            className="topbar-user-btn"
+            onClick={() => setIsDropdownOpen(prev => !prev)}
+            aria-expanded={isDropdownOpen}
+            aria-haspopup="menu"
+            aria-label="Menu profil"
           >
-            <BsPersonCircle size={28} className="text-primary" />
-            <div className="d-none d-sm-block text-start leading-tight">
-              <div className="fw-semibold fs-7 mb-0 text-dark">{user?.name || 'Admin'}</div>
-              <span className="badge bg-primary-subtle text-primary border border-primary-subtle fs-8">
+            <div className="topbar-user-avatar">
+              {getInitials(user?.name)}
+            </div>
+            <div className="topbar-user-info d-none d-sm-block">
+              <span className="topbar-user-name">{user?.name || 'Admin'}</span>
+              <span className="topbar-user-badge">
                 {user?.role?.toUpperCase() || 'ADMIN'}
               </span>
             </div>
           </button>
-          <ul className="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
-            <li>
-              <h6 className="dropdown-header">
-                {user?.email || 'admin@example.com'}
-              </h6>
-            </li>
-            <li><hr className="dropdown-divider" /></li>
-            <li>
-              <button 
-                className="dropdown-item fs-7 text-danger d-flex align-items-center gap-2" 
-                onClick={logout}
+
+          {isDropdownOpen && (
+            <div className="topbar-dropdown-menu" role="menu">
+              <div className="topbar-dropdown-header">
+                <span className="topbar-dropdown-email">
+                  {user?.email || 'admin@example.com'}
+                </span>
+              </div>
+              <button
+                className="topbar-dropdown-item danger"
+                role="menuitem"
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  logout();
+                }}
               >
-                <BsBoxArrowRight /> Keluar (Logout)
+                <BsBoxArrowRight size={14} />
+                Keluar (Logout)
               </button>
-            </li>
-          </ul>
+            </div>
+          )}
         </div>
       </div>
     </header>
