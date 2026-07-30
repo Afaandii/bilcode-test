@@ -19,13 +19,13 @@ spec:
           # TODO: ganti dengan image hasil `docker build` kamu, mis. ghcr.io/<org>/projectpulse-web:latest
           image: projectpulse-web:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 80
           env:
-            - name: NEXT_PUBLIC_API_URL
+            - name: VITE_API_URL
               value: "http://projectpulse-backend:8000"
           readinessProbe:
             httpGet:
               path: /
-              port: 3000
+              port: 80
             initialDelaySeconds: 5
             periodSeconds: 10
