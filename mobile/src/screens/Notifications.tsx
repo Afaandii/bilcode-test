@@ -143,13 +143,13 @@ export const Notifications: React.FC = () => {
   return (
     <IonPage id="notifications-page">
       <IonHeader>
-        <IonToolbar color="primary">
+        <IonToolbar className="notif-toolbar">
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tasks" text="Kembali" />
           </IonButtons>
           <IonTitle>
             <div className="notif-header-title">
-              <span>Notifikasi In-App</span>
+              <span className="notif-header-text">Notifikasi In-App</span>
               {unreadCount > 0 && (
                 <IonBadge color="danger" className="unread-badge">
                   {unreadCount} Baru
@@ -158,7 +158,7 @@ export const Notifications: React.FC = () => {
             </div>
           </IonTitle>
           <IonButtons slot="end">
-            <IonButton fill="clear" color="light" onClick={fetchNotifications}>
+            <IonButton fill="clear" className="notif-refresh-btn" onClick={fetchNotifications}>
               <IonIcon icon={refreshOutline} slot="icon-only" />
             </IonButton>
           </IonButtons>
@@ -166,11 +166,10 @@ export const Notifications: React.FC = () => {
 
         {/* Toolbar Action for Mark All Read */}
         {unreadCount > 0 && (
-          <IonToolbar color="dark" className="action-toolbar">
+          <IonToolbar className="action-toolbar">
             <IonButton
               fill="clear"
               size="small"
-              color="secondary"
               className="mark-all-btn"
               onClick={handleMarkAllRead}
             >
@@ -181,7 +180,7 @@ export const Notifications: React.FC = () => {
         )}
       </IonHeader>
 
-      <IonContent className="ion-padding notifications-content">
+      <IonContent className="notifications-content">
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent
             pullingText="Tarik untuk refresh"

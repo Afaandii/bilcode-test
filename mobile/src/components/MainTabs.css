@@ -1,0 +1,84 @@
+/* =============================================
+   MAIN TABS — MODERN DARK BOTTOM NAV
+   ProjectPulse Mobile · Ionic + React
+   ============================================= */
+
+/* ── Keyframes ─────────────────────────────── */
+@keyframes tab-active-glow {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1;   }
+}
+
+/* ════════════════════════════════════════════
+   TAB BAR — glassmorphism dark
+   ════════════════════════════════════════════ */
+.main-tab-bar {
+  --background: rgba(8, 10, 30, 0.92);
+  --color: #64748b;
+  --color-selected: #a5b4fc;
+  --border: none;
+  border-top: 1px solid rgba(99, 102, 241, 0.18);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  box-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 -8px 24px rgba(0, 0, 0, 0.4);
+  padding-bottom: env(safe-area-inset-bottom);
+  min-height: 60px;
+}
+
+/* ── Individual tab button ── */
+.tab-btn {
+  --color: #475569;
+  --color-selected: #a5b4fc;
+  --ripple-color: rgba(99, 102, 241, 0.15);
+  position: relative;
+  flex: 1;
+  transition: color 0.2s ease;
+}
+
+/* Icon */
+.tab-btn ion-icon {
+  font-size: 22px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* Label */
+.tab-btn ion-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+  transition: color 0.2s ease;
+}
+
+/* Active state — indigo glow */
+.tab-btn.tab-selected ion-icon {
+  transform: translateY(-2px);
+  color: #a5b4fc;
+  filter: drop-shadow(0 0 6px rgba(165, 180, 252, 0.6));
+}
+
+.tab-btn.tab-selected ion-label {
+  color: #a5b4fc;
+}
+
+/* Active indicator dot */
+.tab-btn.tab-selected::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #6366f1;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.8);
+}
+
+/* Hover / focus state */
+.tab-btn:hover ion-icon {
+  color: #94a3b8;
+  transform: translateY(-1px);
+}

@@ -1,101 +1,272 @@
+/* =============================================
+   TASK CARD — MODERN DARK GLASSMORPHISM
+   ProjectPulse Mobile · Ionic + React
+   ============================================= */
+
+/* ── Keyframes ─────────────────────────────── */
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ════════════════════════════════════════════
+   BASE CARD
+   ════════════════════════════════════════════ */
 .task-card {
-  margin: 12px 0;
-  border-radius: 14px;
-  background: #1e293b;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 0;                          /* gap handled by parent flex/grid */
+  border-radius: 18px !important;
+  background: rgba(14, 20, 48, 0.72) !important;
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 4px 12px rgba(0,0,0,0.3),
+    0 12px 32px rgba(0,0,0,0.2) !important;
   cursor: pointer;
+  position: relative;
+  overflow: hidden !important;
+  transition: transform 0.22s ease,
+              box-shadow 0.22s ease,
+              border-color 0.22s ease;
+  animation: card-in 0.4s ease both;
+}
+
+/* Hover lift */
+.task-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px rgba(99,102,241,0.2),
+    0 8px 24px rgba(0,0,0,0.4),
+    0 16px 40px rgba(99,102,241,0.1) !important;
+  border-color: rgba(99,102,241,0.2) !important;
 }
 
 .task-card:active {
-  transform: scale(0.98);
+  transform: scale(0.98) translateY(0);
+  transition: transform 0.1s ease;
 }
 
-.overdue-card {
-  border-left: 4px solid #ef4444;
+/* Subtle top gloss shimmer on card */
+.task-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.12) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
 }
 
+/* ════════════════════════════════════════════
+   LEFT BORDER ACCENT — per status
+   ════════════════════════════════════════════ */
+.task-card.status-todo {
+  border-left: 3px solid #f59e0b !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    -2px 0 12px rgba(245,158,11,0.15),
+    0 4px 12px rgba(0,0,0,0.3) !important;
+}
+
+.task-card.status-in-progress {
+  border-left: 3px solid #3b82f6 !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    -2px 0 12px rgba(59,130,246,0.18),
+    0 4px 12px rgba(0,0,0,0.3) !important;
+}
+
+.task-card.status-review {
+  border-left: 3px solid #8b5cf6 !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    -2px 0 12px rgba(139,92,246,0.18),
+    0 4px 12px rgba(0,0,0,0.3) !important;
+}
+
+.task-card.status-done {
+  border-left: 3px solid #10b981 !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    -2px 0 12px rgba(16,185,129,0.15),
+    0 4px 12px rgba(0,0,0,0.3) !important;
+}
+
+/* Overdue — red left border overrides all */
+.task-card.overdue-card {
+  border-left: 3px solid #ef4444 !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    -2px 0 14px rgba(239,68,68,0.22),
+    0 4px 12px rgba(0,0,0,0.3) !important;
+}
+
+/* ════════════════════════════════════════════
+   CARD HEADER META ROW
+   ════════════════════════════════════════════ */
 .task-header-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
+/* ── Status badge ── */
 .status-badge {
-  font-size: 0.75rem;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-weight: 600;
+  font-size: 0.68rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
+/* ── Category badge ── */
 .category-badge {
-  font-size: 0.7rem;
-  padding: 4px 8px;
-  border-radius: 6px;
+  font-size: 0.68rem;
+  padding: 3px 8px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.1);
-  color: #cbd5e1;
+  gap: 4px;
+  background: rgba(99,102,241,0.15) !important;
+  color: #a5b4fc !important;
+  border: 1px solid rgba(99,102,241,0.2);
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
+/* ════════════════════════════════════════════
+   TITLE & PROJECT
+   ════════════════════════════════════════════ */
 .task-title {
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 3.5vw, 1.1rem);
   font-weight: 700;
-  color: #f8fafc;
-  margin-top: 4px;
-  margin-bottom: 2px;
+  color: #f1f5f9 !important;
+  margin-top: 2px;
+  margin-bottom: 4px;
+  letter-spacing: -0.2px;
+  line-height: 1.3;
 }
 
 .project-name {
-  font-size: 0.825rem;
-  color: #3b82f6;
+  font-size: 0.8rem;
   display: flex;
   align-items: center;
+  gap: 4px;
   font-weight: 500;
+  /* Gradient text for project name */
+  background: linear-gradient(130deg, #60a5fa 0%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
+/* ════════════════════════════════════════════
+   DESCRIPTION
+   ════════════════════════════════════════════ */
 .task-description {
-  font-size: 0.875rem;
+  font-size: 0.845rem;
   color: #94a3b8;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  line-height: 1.55;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
+/* ════════════════════════════════════════════
+   CARD FOOTER
+   ════════════════════════════════════════════ */
 .task-footer {
   display: flex;
   align-items: center;
-  gap: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 14px;
+  border-top: 1px solid rgba(255,255,255,0.06);
   padding-top: 10px;
-  margin-top: 6px;
-  font-size: 0.8rem;
+  margin-top: 2px;
+  font-size: 0.78rem;
   color: #64748b;
 }
 
 .footer-item {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
+}
+
+.footer-item ion-icon {
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
 .footer-arrow {
   margin-left: auto;
-  color: #475569;
+  color: #6366f1;
   display: flex;
   align-items: center;
+  opacity: 0.7;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
+.task-card:hover .footer-arrow {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+/* ════════════════════════════════════════════
+   OVERDUE STYLING
+   ════════════════════════════════════════════ */
 .overdue-icon {
-  color: #ef4444;
+  color: #f87171;
 }
 
 .overdue-text {
   color: #f87171;
   font-weight: 600;
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════ */
+
+/* Extra-small < 360px */
+@media (max-width: 359px) {
+  .task-card {
+    border-radius: 14px !important;
+  }
+  .task-title {
+    font-size: 0.95rem;
+  }
+  .status-badge,
+  .category-badge {
+    font-size: 0.63rem;
+    padding: 2px 7px;
+  }
+  .task-description {
+    font-size: 0.8rem;
+  }
+}
+
+/* Tablet 768px+ */
+@media (min-width: 768px) {
+  .task-card {
+    border-radius: 20px !important;
+  }
+  .task-title {
+    font-size: 1.05rem;
+  }
+  .task-description {
+    font-size: 0.875rem;
+    -webkit-line-clamp: 3;
+  }
 }

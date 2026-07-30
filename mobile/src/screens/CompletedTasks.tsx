@@ -93,22 +93,22 @@ export const CompletedTasks: React.FC = () => {
   return (
     <IonPage id="completed-tasks-page">
       <IonHeader>
-        <IonToolbar color="primary">
+        <IonToolbar className="completed-toolbar">
           <IonTitle>
             <div className="completed-header">
-              <span>Riwayat Task Selesai</span>
+              <span className="completed-header-title">Riwayat Task Selesai</span>
               <IonBadge color="success" className="count-badge">
                 {completedTasks.length} Selesai
               </IonBadge>
             </div>
           </IonTitle>
-          <IonButton slot="end" fill="clear" color="light" onClick={fetchCompletedTasks}>
+          <IonButton slot="end" fill="clear" className="completed-refresh-btn" onClick={fetchCompletedTasks}>
             <IonIcon icon={refreshOutline} slot="icon-only" />
           </IonButton>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding completed-content">
+      <IonContent className="completed-content">
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent pullingText="Tarik untuk refresh" refreshingSpinner="crescent" />
         </IonRefresher>

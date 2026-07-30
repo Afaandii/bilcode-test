@@ -17,7 +17,6 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonCardSubtitle,
-  IonText,
   IonBadge,
   useIonRouter,
 } from "@ionic/react";
@@ -69,154 +68,137 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleFillDemoMember = () => {
-    setEmail("member@bilcode.com");
-    setPassword("password123");
-  };
-
-  const handleFillDemoAdmin = () => {
-    setEmail("admin@projectpulse.com");
-    setPassword("password");
-  };
-
   return (
     <IonPage id="login-page">
-      <IonHeader className="ion-no-border">
-        <IonToolbar color="primary">
+      <IonHeader className="ion-no-border login-header">
+        <IonToolbar>
           <IonTitle>ProjectPulse Mobile</IonTitle>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding login-content">
-        <div className="login-container">
-          <div className="brand-header">
-            <div className="brand-icon-wrapper">
-              <IonIcon icon={briefcaseOutline} className="brand-icon" />
-            </div>
-            <h2>ProjectPulse</h2>
-            <p className="brand-subtitle">Platform Task & Progres Tim Member</p>
-            <IonBadge color="tertiary" className="role-badge">
-              <IonIcon icon={personOutline} style={{ marginRight: "4px" }} />{" "}
-              Role: Member App
-            </IonBadge>
-          </div>
+      <IonContent className="login-content" fullscreen scrollY={true}>
+        {/*
+          login-page-wrapper:
+          - Fills 100vh with the animated gradient background
+          - Contains orbs (position:absolute) and centered form
+          - This is the safest pattern for Ionic: one wrapper div
+            inside IonContent handles everything
+        */}
+        <div className="login-page-wrapper">
+          {/* Floating glow orbs */}
+          <div className="login-bg-orb orb-1" />
+          <div className="login-bg-orb orb-2" />
+          <div className="login-bg-orb orb-3" />
 
-          <IonCard className="login-card">
-            <IonCardHeader>
-              <IonCardTitle>Masuk ke Akun Anda</IonCardTitle>
-              <IonCardSubtitle>
-                Gunakan akun member untuk melihat task & progres
-              </IonCardSubtitle>
-            </IonCardHeader>
-
-            <IonCardContent>
-              {errorMessage && (
-                <div className="error-banner">
-                  <IonIcon icon={alertCircleOutline} />
-                  <span>{errorMessage}</span>
+          {/* Centered form content */}
+          <div className="login-scroll-content">
+            <div className="login-container">
+              {/* Brand Header */}
+              <div className="brand-header">
+                <div className="brand-icon-wrapper">
+                  <IonIcon icon={briefcaseOutline} className="brand-icon" />
                 </div>
-              )}
-
-              <form onSubmit={handleLogin}>
-                <IonItem className="input-item" lines="full">
+                <h2>ProjectPulse</h2>
+                <p className="brand-subtitle">
+                  Platform Task &amp; Progres Tim Member
+                </p>
+                <IonBadge color="tertiary" className="role-badge">
                   <IonIcon
-                    icon={mailOutline}
-                    slot="start"
-                    className="input-icon"
-                  />
-                  <IonLabel position="floating">Email</IonLabel>
-                  <IonInput
-                    type="email"
-                    value={email}
-                    onIonInput={(e) => setEmail(e.detail.value!)}
-                    required
-                    placeholder="nama@perusahaan.com"
-                  />
-                </IonItem>
+                    icon={personOutline}
+                    style={{ marginRight: "4px" }}
+                  />{" "}
+                  Role: Member App
+                </IonBadge>
+              </div>
 
-                <IonItem className="input-item" lines="full">
-                  <IonIcon
-                    icon={lockClosedOutline}
-                    slot="start"
-                    className="input-icon"
-                  />
-                  <IonLabel position="floating">Password</IonLabel>
-                  <IonInput
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onIonInput={(e) => setPassword(e.detail.value!)}
-                    required
-                    placeholder="Masukkan password"
-                  />
-                  <IonButton
-                    fill="clear"
-                    slot="end"
-                    className="password-toggle"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    <IonIcon
-                      icon={showPassword ? eyeOffOutline : eyeOutline}
-                      slot="icon-only"
-                    />
-                  </IonButton>
-                </IonItem>
+              {/* Login Card */}
+              <IonCard className="login-card">
+                <IonCardHeader>
+                  <IonCardTitle>Masuk ke Akun Anda</IonCardTitle>
+                  <IonCardSubtitle>
+                    Gunakan akun member untuk melihat task &amp; progres
+                  </IonCardSubtitle>
+                </IonCardHeader>
 
-                <div className="ion-margin-top">
-                  <IonButton
-                    expand="block"
-                    type="submit"
-                    disabled={isLoading}
-                    shape="round"
-                    className="login-button"
-                  >
-                    {isLoading ? (
-                      <>
-                        <IonSpinner
-                          name="crescent"
-                          style={{ marginRight: "8px" }}
+                <IonCardContent>
+                  {errorMessage && (
+                    <div className="error-banner">
+                      <IonIcon icon={alertCircleOutline} />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
+                  <form onSubmit={handleLogin}>
+                    <IonItem className="input-item" lines="full">
+                      <IonIcon
+                        icon={mailOutline}
+                        slot="start"
+                        className="input-icon"
+                      />
+                      <IonLabel position="floating">Email</IonLabel>
+                      <IonInput
+                        type="email"
+                        value={email}
+                        onIonInput={(e) => setEmail(e.detail.value!)}
+                        required
+                        placeholder="nama@perusahaan.com"
+                      />
+                    </IonItem>
+
+                    <IonItem className="input-item" lines="full">
+                      <IonIcon
+                        icon={lockClosedOutline}
+                        slot="start"
+                        className="input-icon"
+                      />
+                      <IonLabel position="floating">Password</IonLabel>
+                      <IonInput
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onIonInput={(e) => setPassword(e.detail.value!)}
+                        required
+                        placeholder="Masukkan password"
+                      />
+                      <IonButton
+                        fill="clear"
+                        slot="end"
+                        className="password-toggle"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        <IonIcon
+                          icon={showPassword ? eyeOffOutline : eyeOutline}
+                          slot="icon-only"
                         />
-                        Memproses...
-                      </>
-                    ) : (
-                      <>
-                        <IonIcon icon={logInOutline} slot="start" />
-                        Masuk
-                      </>
-                    )}
-                  </IonButton>
-                </div>
-              </form>
-            </IonCardContent>
-          </IonCard>
+                      </IonButton>
+                    </IonItem>
 
-          <div className="demo-credentials">
-            <IonText color="medium">
-              <p
-                style={{
-                  textAlign: "center",
-                  fontSize: "0.85rem",
-                  marginBottom: "8px",
-                }}
-              >
-                Quick Test Credentials (Klik untuk isi cepat):
-              </p>
-            </IonText>
-            <div className="demo-buttons">
-              <IonButton
-                fill="outline"
-                size="small"
-                onClick={handleFillDemoMember}
-              >
-                Member (Developer)
-              </IonButton>
-              <IonButton
-                fill="outline"
-                color="secondary"
-                size="small"
-                onClick={handleFillDemoAdmin}
-              >
-                Admin (PM)
-              </IonButton>
+                    <div className="ion-margin-top">
+                      <IonButton
+                        expand="block"
+                        type="submit"
+                        disabled={isLoading}
+                        shape="round"
+                        className="login-button"
+                      >
+                        {isLoading ? (
+                          <>
+                            <IonSpinner
+                              name="crescent"
+                              style={{ marginRight: "8px" }}
+                            />
+                            Memproses...
+                          </>
+                        ) : (
+                          <>
+                            <IonIcon icon={logInOutline} slot="start" />
+                            Masuk
+                          </>
+                        )}
+                      </IonButton>
+                    </div>
+                  </form>
+                </IonCardContent>
+              </IonCard>
             </div>
           </div>
         </div>

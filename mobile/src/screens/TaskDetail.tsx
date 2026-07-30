@@ -221,7 +221,7 @@ export const TaskDetail: React.FC = () => {
   return (
     <IonPage id="task-detail-page">
       <IonHeader>
-        <IonToolbar color="primary">
+        <IonToolbar className="detail-toolbar">
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tasks" text="Kembali" />
           </IonButtons>
@@ -229,7 +229,7 @@ export const TaskDetail: React.FC = () => {
           <IonButtons slot="end">
             <IonButton
               fill="clear"
-              color="light"
+              className="detail-refresh-btn"
               onClick={() => {
                 fetchTaskDetail();
                 fetchTimeLogs();
@@ -241,7 +241,7 @@ export const TaskDetail: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding task-detail-content">
+      <IonContent className="task-detail-content">
         {loading && (
           <div className="detail-loading">
             <IonSpinner name="crescent" color="primary" />
@@ -368,68 +368,69 @@ export const TaskDetail: React.FC = () => {
               </IonCardContent>
             </IonCard>
 
-            {/* Status Update Action Card */}
-            <IonCard className="action-card">
-              <IonCardHeader>
-                <IonCardTitle style={{ fontSize: "1.1rem" }}>
-                  Ubah Status Task
-                </IonCardTitle>
-                <IonCardSubtitle>
-                  Pilih status baru untuk memperbarui progres task ini
-                </IonCardSubtitle>
-              </IonCardHeader>
+            {/* Detail card + Action card — side-by-side on tablet */}
+            <div className="detail-action-row">
+              {/* Status Update Action Card */}
+              <IonCard className="action-card">
+                <IonCardHeader>
+                  <IonCardTitle>Ubah Status Task</IonCardTitle>
+                  <IonCardSubtitle>
+                    Pilih status baru untuk memperbarui progres task ini
+                  </IonCardSubtitle>
+                </IonCardHeader>
 
-              <IonCardContent>
-                {/* Quick Next Stage Action Button */}
-                {nextAction && (
-                  <IonButton
-                    expand="block"
-                    color={nextAction.color}
+                <IonCardContent>
+                  {/* Quick Next Stage Action Button */}
+                  {nextAction && (
+                    <IonButton
+                      expand="block"
+                      color={nextAction.color}
+                      disabled={updating}
+                      onClick={() => handleUpdateStatus(nextAction.status)}
+                      className="next-action-button"
+                    >
+                      {updating ? (
+                        <IonSpinner
+                          name="crescent"
+                          style={{ marginRight: "8px" }}
+                        />
+                      ) : (
+                        <IonIcon icon={nextAction.icon} slot="start" />
+                      )}
+                      {nextAction.label}
+                    </IonButton>
+                  )}
+
+                  <div className="manual-status-label">
+                    Atau ubah langsung ke status tertentu:
+                  </div>
+
+                  {/* Direct Segment Selector */}
+                  <IonSegment
+                    value={task.status}
+                    onIonChange={(e) =>
+                      handleUpdateStatus(e.detail.value as TaskStatus)
+                    }
                     disabled={updating}
-                    onClick={() => handleUpdateStatus(nextAction.status)}
-                    className="next-action-button"
+                    mode="ios"
+                    className="status-segment"
                   >
-                    {updating ? (
-                      <IonSpinner
-                        name="crescent"
-                        style={{ marginRight: "8px" }}
-                      />
-                    ) : (
-                      <IonIcon icon={nextAction.icon} slot="start" />
-                    )}
-                    {nextAction.label}
-                  </IonButton>
-                )}
-
-                <div className="manual-status-label">
-                  Atau ubah langsung ke status tertentu:
-                </div>
-
-                {/* Direct Segment Selector */}
-                <IonSegment
-                  value={task.status}
-                  onIonChange={(e) =>
-                    handleUpdateStatus(e.detail.value as TaskStatus)
-                  }
-                  disabled={updating}
-                  mode="ios"
-                  className="status-segment"
-                >
-                  <IonSegmentButton value="todo">
-                    <IonLabel>To Do</IonLabel>
-                  </IonSegmentButton>
-                  <IonSegmentButton value="in_progress">
-                    <IonLabel>In Progress</IonLabel>
-                  </IonSegmentButton>
-                  <IonSegmentButton value="review">
-                    <IonLabel>Review</IonLabel>
-                  </IonSegmentButton>
-                  <IonSegmentButton value="done">
-                    <IonLabel>Selesai</IonLabel>
-                  </IonSegmentButton>
-                </IonSegment>
-              </IonCardContent>
-            </IonCard>
+                    <IonSegmentButton value="todo">
+                      <IonLabel>To Do</IonLabel>
+                    </IonSegmentButton>
+                    <IonSegmentButton value="in_progress">
+                      <IonLabel>In Progress</IonLabel>
+                    </IonSegmentButton>
+                    <IonSegmentButton value="review">
+                      <IonLabel>Review</IonLabel>
+                    </IonSegmentButton>
+                    <IonSegmentButton value="done">
+                      <IonLabel>Selesai</IonLabel>
+                    </IonSegmentButton>
+                  </IonSegment>
+                </IonCardContent>
+              </IonCard>
+            </div>
 
             {/* Time Logging & Progress Notes Card */}
             <IonCard className="timelog-card">
@@ -450,9 +451,9 @@ export const TaskDetail: React.FC = () => {
                     </IonCardSubtitle>
                   </div>
                   <IonButton
-                    color="secondary"
                     size="small"
                     shape="round"
+                    className="timelog-add-btn"
                     onClick={() => setIsModalOpen(true)}
                   >
                     <IonIcon icon={addCircleOutline} slot="start" />
@@ -463,17 +464,9 @@ export const TaskDetail: React.FC = () => {
 
               <IonCardContent>
                 {loadingLogs && (
-                  <div
-                    style={{
-                      textAlign: "center",
-                      padding: "16px",
-                      color: "#94a3b8",
-                    }}
-                  >
-                    <IonSpinner name="crescent" color="secondary" />
-                    <p style={{ fontSize: "0.85rem" }}>
-                      Memuat riwayat log waktu...
-                    </p>
+                  <div className="logs-loading">
+                    <IonSpinner name="crescent" color="primary" />
+                    <p>Memuat riwayat log waktu...</p>
                   </div>
                 )}
 

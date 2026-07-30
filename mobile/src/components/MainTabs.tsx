@@ -15,6 +15,7 @@ import CompletedTasks from '../screens/CompletedTasks';
 import Notifications from '../screens/Notifications';
 import Home from '../pages/Home';
 import { ProtectedRoute } from './ProtectedRoute';
+import './MainTabs.css';
 
 export const MainTabs: React.FC = () => {
   return (
@@ -30,18 +31,18 @@ export const MainTabs: React.FC = () => {
         </Switch>
       </IonRouterOutlet>
 
-      <IonTabBar slot="bottom" color="dark">
-        <IonTabButton tab="tasks" href="/tasks">
+      <IonTabBar slot="bottom" className="main-tab-bar">
+        <IonTabButton tab="tasks" href="/tasks" className="tab-btn">
           <IonIcon icon={checkboxOutline} />
           <IonLabel>Task Saya</IonLabel>
         </IonTabButton>
 
-        <IonTabButton tab="completed" href="/completed-tasks">
+        <IonTabButton tab="completed" href="/completed-tasks" className="tab-btn">
           <IonIcon icon={checkmarkDoneCircleOutline} />
           <IonLabel>Task Selesai</IonLabel>
         </IonTabButton>
 
-        <IonTabButton tab="profile" href="/home">
+        <IonTabButton tab="profile" href="/home" className="tab-btn">
           <IonIcon icon={personOutline} />
           <IonLabel>Profil</IonLabel>
         </IonTabButton>
