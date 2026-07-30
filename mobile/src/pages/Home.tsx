@@ -1,3 +1,4 @@
+import React from "react";
 import {
   IonContent,
   IonHeader,
@@ -12,78 +13,98 @@ import {
   IonCardSubtitle,
   IonCardContent,
   IonBadge,
-  IonItem,
-  IonLabel,
-  IonText,
   useIonRouter,
-} from '@ionic/react';
-import { logOutOutline, personCircleOutline, keyOutline, checkmarkCircleOutline } from 'ionicons/icons';
-import { useAuth } from '../context/AuthContext';
-import './Home.css';
+} from "@ionic/react";
+import {
+  logOutOutline,
+  personCircleOutline,
+  checkmarkCircleOutline,
+} from "ionicons/icons";
+import { useAuth } from "../context/AuthContext";
+import "./Home.css";
 
 const Home: React.FC = () => {
-  const { user, token, logout } = useAuth();
+  const { user, logout } = useAuth();
   const router = useIonRouter();
 
   const handleLogout = async () => {
     await logout();
-    router.push('/login', 'back', 'replace');
+    router.push("/login", "back", "replace");
   };
 
   return (
-    <IonPage>
+    <IonPage id="home-page">
       <IonHeader>
-        <IonToolbar color="primary">
-          <IonTitle>ProjectPulse - Member Home</IonTitle>
-          <IonButton slot="end" fill="clear" color="light" onClick={handleLogout}>
+        <IonToolbar className="home-toolbar">
+          <IonTitle>ProjectPulse - Profil</IonTitle>
+          <IonButton
+            slot="end"
+            fill="clear"
+            className="home-logout-btn"
+            onClick={handleLogout}
+          >
             <IonIcon icon={logOutOutline} slot="icon-only" />
           </IonButton>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding">
-        <IonCard>
-          <IonCardHeader>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <IonIcon icon={personCircleOutline} style={{ fontSize: '40px', color: '#3b82f6' }} />
-              <div>
-                <IonCardTitle>{user?.name || 'Member User'}</IonCardTitle>
-                <IonCardSubtitle>{user?.email}</IonCardSubtitle>
+      <IonContent className="home-content">
+        <div className="profile-wrapper">
+
+          {/* ── Profile Hero Card ── */}
+          <IonCard className="profile-hero-card">
+            <IonCardContent>
+              {/* Identity row */}
+              <div className="profile-identity">
+                <div className="profile-avatar-wrapper">
+                  <IonIcon icon={personCircleOutline} />
+                </div>
+                <div>
+                  <h2 className="profile-name">{user?.name || "Member User"}</h2>
+                  <p className="profile-email">{user?.email}</p>
+                </div>
               </div>
-            </div>
-          </IonCardHeader>
 
-          <IonCardContent>
-            <IonItem lines="none" style={{ '--background': 'transparent' }}>
-              <IonLabel>Role Hak Akses:</IonLabel>
-              <IonBadge color={user?.role === 'member' ? 'success' : 'warning'}>
-                {user?.role?.toUpperCase() || 'MEMBER'}
-              </IonBadge>
-            </IonItem>
-
-            <div style={{ marginTop: '16px', padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
-                <IonIcon icon={keyOutline} color="secondary" />
-                <strong>Laravel Sanctum Bearer Token:</strong>
+              {/* Role row */}
+              <div className="profile-role-row">
+                <span className="profile-role-label">Role Hak Akses</span>
+                <IonBadge
+                  color={user?.role === "member" ? "success" : "warning"}
+                  className="profile-role-badge"
+                >
+                  {user?.role?.toUpperCase() || "MEMBER"}
+                </IonBadge>
               </div>
-              <IonText color="medium">
-                <code style={{ fontSize: '0.75rem', wordBreak: 'break-all' }}>
-                  {token ? `${token.substring(0, 30)}...` : 'No active token'}
-                </code>
-              </IonText>
-            </div>
 
-            <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px', color: '#10b981' }}>
-              <IonIcon icon={checkmarkCircleOutline} />
-              <span>Autentikasi Member Berhasil (Task 1 Complete)</span>
-            </div>
+              {/* Auth success */}
+              <div className="profile-auth-success">
+                <IonIcon icon={checkmarkCircleOutline} />
+                <span>Autentikasi Member Berhasil (Task 1 Complete)</span>
+              </div>
+            </IonCardContent>
+          </IonCard>
 
-            <IonButton expand="block" color="danger" style={{ marginTop: '24px' }} onClick={handleLogout}>
-              <IonIcon icon={logOutOutline} slot="start" />
-              Keluar (Logout)
-            </IonButton>
-          </IonCardContent>
-        </IonCard>
+          {/* ── Logout Card ── */}
+          <IonCard className="logout-card">
+            <IonCardHeader>
+              <IonCardTitle>Keluar dari Akun</IonCardTitle>
+              <IonCardSubtitle>
+                Sesi Anda akan diakhiri dan diarahkan ke halaman login
+              </IonCardSubtitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonButton
+                expand="block"
+                className="logout-btn"
+                onClick={handleLogout}
+              >
+                <IonIcon icon={logOutOutline} slot="start" />
+                Keluar (Logout)
+              </IonButton>
+            </IonCardContent>
+          </IonCard>
+
+        </div>
       </IonContent>
     </IonPage>
   );

@@ -1,32 +1,109 @@
+/* =============================================
+   TASK LIST PAGE — MODERN DARK REDESIGN
+   ProjectPulse Mobile · Ionic + React
+   Theme: consistent with Login page
+   ============================================= */
+
+/* ── Keyframes ─────────────────────────────── */
+@keyframes skeleton-shimmer {
+  0%   { background-position: -300px 0; }
+  100% { background-position: 300px 0; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes pulse-empty {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+  50%       { box-shadow: 0 0 0 14px rgba(99,102,241,0.1); }
+}
+
+/* ════════════════════════════════════════════
+   ION-PAGE
+   ════════════════════════════════════════════ */
+#task-list-page {
+  background: #080818;
+}
+
+/* ════════════════════════════════════════════
+   HEADER TOOLBAR — gradient dark (no blue)
+   ════════════════════════════════════════════ */
+.task-list-toolbar {
+  --background: linear-gradient(135deg, #0a0818 0%, #0d1232 60%, #0a0f22 100%);
+  --border-color: transparent;
+  --color: #f1f5f9;
+  box-shadow: 0 1px 0 rgba(99,102,241,0.25);
+}
+
+/* Title row: "Task Saya" left + greeting right */
 .toolbar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+}
+
+.toolbar-title-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  background: linear-gradient(130deg, #e2e8f0 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .user-greeting {
   font-size: 0.8rem;
-  font-weight: normal;
-  opacity: 0.85;
+  font-weight: 400;
+  color: #94a3b8;
+  letter-spacing: 0.2px;
+  -webkit-text-fill-color: #94a3b8; /* override gradient */
 }
 
+/* Notification bell button */
 .notif-bell-btn {
   position: relative;
+  --color: #a5b4fc;
+  --ripple-color: rgba(99,102,241,0.2);
+}
+
+.notif-bell-btn:hover {
+  --color: #c4b5fd;
 }
 
 .toolbar-notif-badge {
   position: absolute;
   top: 2px;
   right: 2px;
-  font-size: 0.65rem;
-  padding: 2px 5px;
-  border-radius: 10px;
-  border: 1px solid #ffffff;
+  font-size: 0.6rem;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  border: 1.5px solid #080818;
+  box-shadow: 0 2px 6px rgba(239,68,68,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Refresh button */
+.refresh-btn {
+  --color: #a5b4fc;
+  --ripple-color: rgba(99,102,241,0.2);
+}
+
+/* ════════════════════════════════════════════
+   SEGMENT TOOLBAR — seamless with main toolbar
+   ════════════════════════════════════════════ */
 .segment-toolbar {
-  --background: #0f172a;
-  padding: 0 4px;
+  --background: linear-gradient(180deg, #0d1232 0%, #090a1e 100%);
+  --border-color: transparent;
+  padding: 0 4px 4px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
 }
 
 ion-segment {
@@ -34,95 +111,308 @@ ion-segment {
 }
 
 ion-segment-button {
-  --color: #94a3b8;
-  --color-checked: #3b82f6;
-  --border-radius: 8px;
-  min-width: 90px;
-  font-size: 0.8rem;
+  --color: #64748b;
+  --color-checked: #e2e8f0;
+  --indicator-color: #6366f1;
+  --indicator-height: 2px;
+  --border-radius: 0;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  min-width: 80px;
+  font-size: 0.78rem;
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  transition: color 0.2s ease;
 }
 
+ion-segment-button.segment-button-checked {
+  --color: #e2e8f0;
+}
+
+/* Badge pills inside segment tabs */
 ion-segment-button ion-badge {
-  margin-left: 6px;
-  font-size: 0.7rem;
+  margin-left: 5px;
+  font-size: 0.65rem;
   padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: 700;
+  min-width: 18px;
 }
 
+/* ════════════════════════════════════════════
+   ION-CONTENT background
+   ════════════════════════════════════════════ */
 .task-list-content {
-  --background: #0b1329;
+  --background: linear-gradient(180deg, #090a1e 0%, #08081a 40%, #06060f 100%);
+  --padding-start: 14px;
+  --padding-end: 14px;
+  --padding-top: 6px;
+  --padding-bottom: 24px;
 }
 
+/* ════════════════════════════════════════════
+   SEARCHBAR — glassmorphism
+   ════════════════════════════════════════════ */
 .task-searchbar {
-  --background: #1e293b;
-  --color: #f8fafc;
-  --placeholder-color: #64748b;
-  --icon-color: #64748b;
-  --border-radius: 12px;
+  --background: rgba(255,255,255,0.05);
+  --color: #e2e8f0;
+  --placeholder-color: #475569;
+  --icon-color: #6366f1;
+  --clear-button-color: #6366f1;
+  --border-radius: 14px;
+  --box-shadow: none;
   padding-left: 0;
   padding-right: 0;
-  margin-bottom: 12px;
-}
-
-.error-container {
-  text-align: center;
-  padding: 32px 16px;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  margin-bottom: 14px;
+  border: 1px solid rgba(99,102,241,0.18);
   border-radius: 14px;
-  margin: 16px 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  animation: fade-in-up 0.4s ease both;
 }
 
-.error-icon {
-  font-size: 48px;
-  color: #ef4444;
-  margin-bottom: 8px;
+.task-searchbar.searchbar-has-focus {
+  border-color: rgba(99,102,241,0.5);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15),
+              0 4px 16px rgba(0,0,0,0.3);
 }
 
+/* ════════════════════════════════════════════
+   TASK CARDS LIST
+   ════════════════════════════════════════════ */
+.task-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fade-in-up 0.45s ease both;
+}
+
+/* ════════════════════════════════════════════
+   SKELETON LOADING
+   ════════════════════════════════════════════ */
 .skeleton-container {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-top: 12px;
+  margin-top: 4px;
+  animation: fade-in-up 0.3s ease both;
 }
 
 .skeleton-card {
-  padding: 16px;
-  background: #1e293b;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 18px;
+  background: rgba(14,20,48,0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.06);
+  overflow: hidden;
+  position: relative;
 }
 
+/* Shimmer overlay on skeleton */
+.skeleton-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(99,102,241,0.06) 50%,
+    transparent 100%
+  );
+  background-size: 300px 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton-card ion-skeleton-text {
+  --border-radius: 6px;
+  --background: rgba(255,255,255,0.06);
+  --background-rgb: 99,102,241;
+}
+
+/* ════════════════════════════════════════════
+   ERROR STATE
+   ════════════════════════════════════════════ */
+.error-container {
+  text-align: center;
+  padding: 32px 20px;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 18px;
+  margin: 8px 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: fade-in-up 0.35s ease both;
+}
+
+.error-container p {
+  color: #fca5a5;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin: 8px 0 16px;
+}
+
+.error-icon {
+  font-size: 44px;
+  color: #f87171;
+  display: block;
+  margin: 0 auto 4px;
+  filter: drop-shadow(0 4px 8px rgba(239,68,68,0.4));
+}
+
+/* ════════════════════════════════════════════
+   EMPTY STATE
+   ════════════════════════════════════════════ */
 .empty-state {
   text-align: center;
-  padding: 48px 24px;
+  padding: 56px 28px;
+  animation: fade-in-up 0.4s ease both;
 }
 
 .empty-icon-wrapper {
-  width: 72px;
-  height: 72px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px;
+  margin: 0 auto 20px;
+  animation: pulse-empty 3s ease-in-out infinite;
+  box-shadow: 0 8px 24px rgba(99,102,241,0.3);
 }
 
 .empty-icon-wrapper ion-icon {
-  font-size: 36px;
-  color: #64748b;
+  font-size: 40px;
+  color: #ffffff;
 }
 
 .empty-state h3 {
   font-size: 1.2rem;
-  font-weight: 600;
-  color: #f8fafc;
-  margin-bottom: 8px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  background: linear-gradient(130deg, #e2e8f0 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .empty-state p {
   color: #64748b;
-  font-size: 0.9rem;
-  max-width: 280px;
+  font-size: 0.88rem;
+  max-width: 260px;
   margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ════════════════════════════════════════════ */
+
+/* Extra-small < 360px */
+@media (max-width: 359px) {
+  .task-list-content {
+    --padding-start: 10px;
+    --padding-end: 10px;
+  }
+  ion-segment-button {
+    min-width: 68px;
+    font-size: 0.7rem;
+  }
+  .empty-icon-wrapper {
+    width: 72px;
+    height: 72px;
+  }
+  .empty-icon-wrapper ion-icon {
+    font-size: 32px;
+  }
+  .empty-state {
+    padding: 40px 16px;
+  }
+}
+
+/* Large phones 480–767px */
+@media (min-width: 480px) and (max-width: 767px) {
+  .task-list-content {
+    --padding-start: 18px;
+    --padding-end: 18px;
+  }
+  .task-cards-list {
+    gap: 14px;
+  }
+}
+
+/* Tablet 768px+ — 2-column grid */
+@media (min-width: 768px) {
+  .task-list-content {
+    --padding-start: 24px;
+    --padding-end: 24px;
+  }
+
+  .task-cards-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .skeleton-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  ion-segment-button {
+    min-width: 110px;
+    font-size: 0.82rem;
+  }
+
+  .empty-icon-wrapper {
+    width: 100px;
+    height: 100px;
+  }
+
+  .empty-icon-wrapper ion-icon {
+    font-size: 46px;
+  }
+
+  .empty-state h3 {
+    font-size: 1.35rem;
+  }
+}
+
+/* Desktop 1024px+ */
+@media (min-width: 1024px) {
+  .task-list-content {
+    --padding-start: 32px;
+    --padding-end: 32px;
+  }
+
+  .task-cards-list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .skeleton-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Landscape phone */
+@media (max-height: 520px) and (orientation: landscape) {
+  .empty-state {
+    padding: 24px 20px;
+  }
+  .empty-icon-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+  .empty-icon-wrapper ion-icon {
+    font-size: 28px;
+  }
+  .empty-state h3 {
+    font-size: 1rem;
+  }
 }

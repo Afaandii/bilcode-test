@@ -1,20 +1,29 @@
+/* =============================================
+   TIME LOG MODAL — DARK THEME (aligned)
+   ProjectPulse Mobile · Ionic + React
+   ============================================= */
+
 ion-modal.time-log-modal {
   --height: 580px;
   --max-height: 90vh;
   --width: 94%;
   --max-width: 500px;
-  --border-radius: 16px;
-  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.5);
-  --background: #0b1329;
+  --border-radius: 22px;
+  --box-shadow: 0 28px 60px rgba(0,0,0,0.6),
+                0 0 0 1px rgba(99,102,241,0.2);
+  --background: #090a1e;
 }
 
 ion-modal.time-log-modal::part(content) {
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  border: 1px solid rgba(99,102,241,0.18);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
+/* ── Modal content area ── */
 .modal-content {
-  --background: #0b1329;
+  --background: linear-gradient(180deg, #0c0d24 0%, #08081a 100%);
   --padding-start: 16px;
   --padding-end: 16px;
   --padding-top: 16px;
@@ -22,58 +31,85 @@ ion-modal.time-log-modal::part(content) {
   height: 100%;
 }
 
+/* ── Task summary banner ── */
 .task-summary-banner {
-  background: #1e293b;
+  background: rgba(99,102,241,0.1);
   padding: 12px 16px;
-  border-radius: 12px;
+  border-radius: 14px;
   margin-bottom: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-left: 3px solid #6366f1;
+}
+
+.task-summary-banner ion-badge {
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 700;
 }
 
 .modal-task-title {
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: #f8fafc;
   margin: 6px 0 0 0;
+  background: linear-gradient(130deg, #e2e8f0 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
+/* ── Input items ── */
 .modal-input-item {
-  --background: #1e293b;
-  --color: #f8fafc;
-  --border-radius: 10px;
+  --background: rgba(255,255,255,0.05);
+  --color: #e2e8f0;
+  --border-radius: 12px;
   --padding-start: 12px;
   --inner-padding-end: 12px;
-  margin-bottom: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  --border-color: rgba(99,102,241,0.2);
+  --highlight-color-focused: #6366f1;
+  margin-bottom: 14px;
+  border: 1px solid rgba(99,102,241,0.15);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.modal-input-item.item-has-focus {
+  border-color: rgba(99,102,241,0.45);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
 }
 
 .modal-input-icon {
-  color: #3b82f6;
+  color: #818cf8;
   font-size: 20px;
+  filter: drop-shadow(0 0 3px rgba(99,102,241,0.4));
 }
 
+/* ── Duration picker ── */
 .duration-picker-container {
-  background: #1e293b;
+  background: rgba(99,102,241,0.07);
   padding: 16px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(99,102,241,0.18);
 }
 
 .duration-label {
   display: flex;
   align-items: center;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #f8fafc;
-  margin-bottom: 12px;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #c7d2fe;
+  margin-bottom: 14px;
 }
 
 .duration-inputs {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
   margin-bottom: 10px;
 }
 
@@ -81,52 +117,58 @@ ion-modal.time-log-modal::part(content) {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 4px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.06);
+  padding: 6px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(99,102,241,0.2);
 }
 
 .duration-field ion-input {
   width: 55px;
   text-align: center;
-  font-size: 1.2rem;
-  font-weight: bold;
-  --color: #3b82f6;
+  font-size: 1.3rem;
+  font-weight: 800;
+  --color: #818cf8;
 }
 
 .duration-field span {
-  font-size: 0.8rem;
-  color: #94a3b8;
+  font-size: 0.78rem;
+  color: #64748b;
+  font-weight: 600;
 }
 
 .duration-separator {
   font-size: 1.5rem;
-  font-weight: bold;
-  color: #64748b;
+  font-weight: 800;
+  color: #6366f1;
 }
 
+/* Duration preview */
 .formatted-preview {
   text-align: center;
   font-size: 0.8rem;
-  color: #94a3b8;
+  color: #64748b;
   margin-bottom: 14px;
 }
 
 .formatted-preview strong {
-  color: #10b981;
+  color: #34d399;
+  font-weight: 700;
 }
 
+/* Quick presets */
 .quick-presets {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(99,102,241,0.12);
   padding-top: 12px;
 }
 
 .preset-title {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: #64748b;
   display: block;
   margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .preset-buttons {
@@ -135,6 +177,23 @@ ion-modal.time-log-modal::part(content) {
   flex-wrap: wrap;
 }
 
+.preset-buttons ion-button {
+  --border-color: rgba(99,102,241,0.3);
+  --color: #a5b4fc;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ── Modal actions ── */
 .modal-actions {
   margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-actions ion-button {
+  --border-radius: 14px;
+  font-weight: 700;
+  height: 50px;
 }

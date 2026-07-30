@@ -124,10 +124,10 @@ export const TaskList: React.FC = () => {
   return (
     <IonPage id="task-list-page">
       <IonHeader>
-        <IonToolbar color="primary">
+        <IonToolbar className="task-list-toolbar">
           <IonTitle>
             <div className="toolbar-header">
-              <span>Task Saya</span>
+              <span className="toolbar-title-text">Task Saya</span>
               {user && (
                 <span className="user-greeting">
                   Halo, {user.name.split(" ")[0]}
@@ -140,7 +140,6 @@ export const TaskList: React.FC = () => {
             {/* Notification Bell Button */}
             <IonButton
               fill="clear"
-              color="light"
               onClick={() => router.push("/notifications")}
               className="notif-bell-btn"
             >
@@ -155,7 +154,7 @@ export const TaskList: React.FC = () => {
             {/* Refresh Button */}
             <IonButton
               fill="clear"
-              color="light"
+              className="refresh-btn"
               onClick={() => {
                 fetchTasks();
                 fetchNotifications();
@@ -167,7 +166,7 @@ export const TaskList: React.FC = () => {
         </IonToolbar>
 
         {/* Filter Segment Tabs */}
-        <IonToolbar color="dark" className="segment-toolbar">
+        <IonToolbar className="segment-toolbar">
           <IonSegment
             value={selectedStatus}
             onIonChange={(e) => setSelectedStatus(e.detail.value as string)}
@@ -198,7 +197,7 @@ export const TaskList: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding task-list-content">
+      <IonContent className="task-list-content">
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent
             pullingText="Tarik untuk refresh"

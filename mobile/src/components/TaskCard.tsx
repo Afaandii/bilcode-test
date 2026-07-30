@@ -50,9 +50,19 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, onClick }) => {
     return deadlineDate < today;
   };
 
+  const getStatusClass = () => {
+    switch (task.status) {
+      case "todo":        return "status-todo";
+      case "in_progress": return "status-in-progress";
+      case "review":      return "status-review";
+      case "done":        return "status-done";
+      default:            return "";
+    }
+  };
+
   return (
     <IonCard
-      className={`task-card ${isOverdue() ? "overdue-card" : ""}`}
+      className={`task-card ${getStatusClass()} ${isOverdue() ? "overdue-card" : ""}`}
       onClick={() => onClick && onClick(task)}
     >
       <IonCardHeader>

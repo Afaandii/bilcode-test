@@ -1,0 +1,272 @@
+/* =============================================
+   HOME / PROFILE PAGE — MODERN DARK REDESIGN
+   ProjectPulse Mobile · Ionic + React
+   ============================================= */
+
+/* ── Keyframes ─────────────────────────────── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes avatar-pulse {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(99,102,241,0),
+                          0 8px 20px rgba(99,102,241,0.4); }
+  50%       { box-shadow: 0 0 0 10px rgba(99,102,241,0.12),
+                          0 8px 28px rgba(99,102,241,0.55); }
+}
+
+@keyframes gradient-shift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+/* ════════════════════════════════════════════
+   ION-PAGE
+   ════════════════════════════════════════════ */
+#home-page {
+  background: #080818;
+}
+
+/* ════════════════════════════════════════════
+   HEADER TOOLBAR
+   ════════════════════════════════════════════ */
+.home-toolbar {
+  --background: linear-gradient(135deg, #0a0818 0%, #0d1232 60%, #0a0f22 100%);
+  --border-color: transparent;
+  --color: #f1f5f9;
+  box-shadow: 0 1px 0 rgba(99,102,241,0.25);
+}
+
+.home-toolbar ion-title {
+  background: linear-gradient(130deg, #e2e8f0 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+.home-logout-btn {
+  --color: #f87171;
+  --ripple-color: rgba(239,68,68,0.2);
+}
+
+/* ════════════════════════════════════════════
+   ION-CONTENT
+   ════════════════════════════════════════════ */
+.home-content {
+  --background: linear-gradient(180deg, #090a1e 0%, #08081a 40%, #06060f 100%);
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 20px;
+  --padding-bottom: 32px;
+}
+
+/* ════════════════════════════════════════════
+   PROFILE WRAPPER
+   ════════════════════════════════════════════ */
+.profile-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fade-in-up 0.5s ease both;
+  max-width: 560px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ════════════════════════════════════════════
+   PROFILE HERO CARD
+   ════════════════════════════════════════════ */
+.profile-hero-card {
+  border-radius: 24px !important;
+  background: rgba(14,20,48,0.72) !important;
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 8px 24px rgba(0,0,0,0.35),
+    0 20px 48px rgba(0,0,0,0.2) !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Gradient top accent line */
+.profile-hero-card::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 50%, #3b82f6 100%);
+  margin: 0;
+}
+
+/* ── Avatar + Name row ── */
+.profile-identity {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-avatar-wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #7c3aed 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: avatar-pulse 3.5s ease-in-out infinite;
+  position: relative;
+}
+
+.profile-avatar-wrapper ion-icon {
+  font-size: 36px;
+  color: #ffffff;
+}
+
+.profile-name {
+  font-size: clamp(1.1rem, 4vw, 1.35rem);
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin: 0 0 3px 0;
+  background: linear-gradient(130deg, #f1f5f9 0%, #c7d2fe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.profile-email {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* ── Role info row ── */
+.profile-role-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: rgba(99,102,241,0.07);
+  border-radius: 14px;
+  border: 1px solid rgba(99,102,241,0.15);
+  margin-top: 16px;
+}
+
+.profile-role-label {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.profile-role-badge {
+  font-size: 0.72rem;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* ── Auth success row ── */
+.profile-auth-success {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(16,185,129,0.08);
+  border-radius: 12px;
+  border: 1px solid rgba(52,211,153,0.2);
+  margin-top: 12px;
+}
+
+.profile-auth-success ion-icon {
+  font-size: 18px;
+  color: #34d399;
+  flex-shrink: 0;
+}
+
+.profile-auth-success span {
+  font-size: 0.82rem;
+  color: #6ee7b7;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ════════════════════════════════════════════
+   LOGOUT CARD
+   ════════════════════════════════════════════ */
+.logout-card {
+  border-radius: 20px !important;
+  background: rgba(14,20,48,0.65) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(239,68,68,0.15) !important;
+  box-shadow:
+    0 0 0 1px rgba(239,68,68,0.06),
+    0 8px 24px rgba(0,0,0,0.3) !important;
+  margin: 0 !important;
+}
+
+.logout-card ion-card-title {
+  font-size: 0.95rem !important;
+  font-weight: 700;
+  color: #e2e8f0 !important;
+}
+
+.logout-card ion-card-subtitle {
+  font-size: 0.78rem !important;
+  color: #64748b !important;
+  margin-top: 3px;
+}
+
+/* Logout button */
+.logout-btn {
+  --background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  --background-activated: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+  --border-radius: 14px;
+  --color: #ffffff;
+  --box-shadow: 0 4px 16px rgba(239,68,68,0.4);
+  font-weight: 700;
+  font-size: 0.95rem;
+  height: 52px;
+  letter-spacing: 0.3px;
+}
+
+.logout-btn:not([disabled]):hover {
+  transform: translateY(-2px);
+  --box-shadow: 0 8px 24px rgba(239,68,68,0.55);
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ════════════════════════════════════════════ */
+
+/* Extra-small < 360px */
+@media (max-width: 359px) {
+  .home-content { --padding-start: 12px; --padding-end: 12px; }
+  .profile-hero-card { border-radius: 18px !important; }
+  .profile-avatar-wrapper { width: 58px; height: 58px; }
+  .profile-avatar-wrapper ion-icon { font-size: 28px; }
+  .profile-name { font-size: 1rem; }
+  .logout-btn { height: 48px; }
+}
+
+/* Large phones 480–767px */
+@media (min-width: 480px) {
+  .home-content { --padding-start: 20px; --padding-end: 20px; --padding-top: 24px; }
+}
+
+/* Tablet 768px+ */
+@media (min-width: 768px) {
+  .home-content { --padding-start: 32px; --padding-end: 32px; --padding-top: 32px; }
+  .profile-wrapper { max-width: 520px; }
+  .profile-avatar-wrapper { width: 80px; height: 80px; }
+  .profile-avatar-wrapper ion-icon { font-size: 42px; }
+  .profile-name { font-size: 1.45rem; }
+  .logout-btn { height: 56px; font-size: 1rem; }
+}
