@@ -1,4 +1,12 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+
+export interface Client {
+  id?: number;
+  name: string;
+  contact: string;
+  company: string;
+}
 
 export interface MemberWorkload {
   id: number;
@@ -22,20 +30,24 @@ export interface DashboardSummaryResponse {
 /**
  * Fetch dashboard summary details (Admin only)
  */
-export const getDashboardSummaryApi = async (token: string): Promise<DashboardSummary> => {
+export const getDashboardSummaryApi = async (
+  token: string,
+): Promise<DashboardSummary> => {
   const response = await fetch(`${API_BASE_URL}/dashboard/summary`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
     },
   });
 
   const data: DashboardSummaryResponse = await response.json();
 
-  if (!response.ok || data.status !== 'success') {
-    throw new Error(data.message || 'Gagal mengambil data ringkasan dashboard.');
+  if (!response.ok || data.status !== "success") {
+    throw new Error(
+      data.message || "Gagal mengambil data ringkasan dashboard.",
+    );
   }
 
   return data.data;

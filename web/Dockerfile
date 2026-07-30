@@ -1,23 +1,32 @@
-# Dockerfile for Next.js Web Frontend (ProjectPulse)
-FROM node:22-alpine AS deps
+# Stage 1 - Build
+FROM node:22-alpine AS builder
+
 WORKDIR /app
-COPY package.json package-lock.json ./
+
+COPY package*.json ./
 RUN npm ci
 
-FROM node:22-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
 RUN npm run build
 
-FROM node:22-alpine AS runner
-WORKDIR /app
-ENV NODE_ENV=production
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+# Stage 2 - Production
+FROM nginx:alpine
 
-EXPOSE 3000
-CMD ["npm", "run", "start"]
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# SPA Routing
+RUN printf 'server {\n\
+    listen 80;\n\
+    server_name localhost;\n\
+    root /usr/share/nginx/html;\n\
+    index index.html;\n\
+\n\
+    location / {\n\
+        try_files $uri $uri/ /index.html;\n\
+    }\n\
+}\n' > /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
